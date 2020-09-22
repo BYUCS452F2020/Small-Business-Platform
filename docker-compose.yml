@@ -1,0 +1,41 @@
+version: "3"
+
+services:
+  client:
+    build: ./client
+    environment:
+      - PORT=$CLIENT_PORT
+    ports:
+      - $CLIENT_PORT:$CLIENT_PORT
+    volumes:
+      - ./client:/home/node/app
+
+  server:
+    build: ./server
+    environment:
+      - PORT=$SERVER_PORT
+      - POSTGRES_HOST=$POSTGRES_HOST
+      - POSTGRES_PORT=$POSTGRES_PORT
+    networks:
+      - backend
+    ports:
+      - $SERVER_PORT:$SERVER_PORT
+    volumes:
+      - ./server:/home/node/app
+
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB
+    networks:
+      - backend
+    volumes:
+      - spackle-db:/var/lib/postgresql/data
+
+networks:
+  backend:
+
+volumes:
+  spackle-db:
