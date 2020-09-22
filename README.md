@@ -16,7 +16,13 @@ The easiest way to develop Spackle is with Docker:
     - [docker](https://docs.docker.com/get-docker/)
     - [docker-compose](https://docs.docker.com/compose/install/)
 
-2. From the root project directory, run `docker-compose up`. This will start up the client, server, and database. The client is served on port 3000 and the server runs on port 8000.
+2. From the root project directory, run the following commands to install node modules and start up the client, server, and database. The client is served on port 3000 and the server runs on port 8000.
+
+```bash
+$ docker-compose run server yarn
+$ docker-compose run client yarn
+$ docker-compose up
+```
 
 Both the client and server watch for changes, and the directories on your machine are mounted into the containers -- so you can edit the files on your machine like normal, and the changes will be reflected.
 
