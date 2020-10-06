@@ -1,5 +1,8 @@
-import {hashPassword} from '../util/hash'
-import {create as createUser} from '../db/user'
+import {compare, hashPassword} from '../util/hash'
+import {
+  create as createUser,
+  getAuthInfo,
+} from '../db/user'
 import {create as createAuthToken} from '../db/auth-token'
 
 export async function register(
@@ -21,4 +24,17 @@ export async function register(
     // use login route to get an auth token
     return null
   }
+}
+
+export async function login(
+  username: string,
+  password: string,
+): Promise<string> {
+  const {id, password: hashedPassword} = await getAuthInfo(username)
+
+  if (! await compare(password, hashedPassword)) {
+    throw new Error('IncorrectPassword')
+  }
+
+  return await createAuthToken(id)
 }

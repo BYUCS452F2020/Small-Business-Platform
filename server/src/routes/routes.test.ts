@@ -29,6 +29,10 @@ describe('Routes', () => {
         method: 'post',
         path: '/user/register',
       },
+      {
+        method: 'post',
+        path: '/user/login',
+      },
     ]
 
     for (const {method, path} of routes) {

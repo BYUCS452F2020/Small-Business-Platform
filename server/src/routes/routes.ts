@@ -1,5 +1,6 @@
 import express from 'express'
 import registerUser from './handlers/register-user'
+import loginUser from './handlers/login-user'
 import handleError from './handlers/error'
 
 // Express doesn't handle errors thrown in async code, so this does
@@ -13,9 +14,9 @@ function withErrHandling(handler: express.RequestHandler): express.RequestHandle
 
 export function set(app: express.Application): void {
   app.post('/user/register', withErrHandling(registerUser))
+  app.post('/user/login', withErrHandling(loginUser))
 
   // error handling - must be last!
   app.use(handleError)
 }
-
 
