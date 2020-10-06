@@ -11,8 +11,8 @@ describe('User DB', () => {
       (pg.Pool as unknown as jest.Mock).mockRestore()
       ;(pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
         rows: [
-          {id: 123}
-        ]
+          {id: 123},
+        ],
       })
     })
 
@@ -21,7 +21,7 @@ describe('User DB', () => {
       expect(result).toBe(123)
       expect(pg.Pool.prototype.query).toBeCalledWith(
         expect.stringMatching(/^INSERT INTO "user"/),
-        expect.any(Array)
+        expect.any(Array),
       )
     })
 

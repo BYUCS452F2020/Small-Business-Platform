@@ -11,7 +11,7 @@ export async function createTable(): Promise<void> {
       username    VARCHAR(20) NOT NULL UNIQUE,
       password    CHAR(60) NOT NULL,
       email       VARCHAR(32) NOT NULL
-    )`
+    )`,
   )
 }
 
@@ -27,7 +27,7 @@ export async function create(
       `INSERT INTO "user" (first_name, last_name, username, password, email)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING id`,
-      [firstName, lastName, username, password, email]
+      [firstName, lastName, username, password, email],
     )
 
     return result.rows[0].id

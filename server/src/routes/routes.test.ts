@@ -14,7 +14,7 @@ jest.mock('./handlers/error', () => {
 
 describe('Routes', () => {
   let app: express.Application
-  
+
   beforeEach(() => {
     app = express()
     setRoutes(app)

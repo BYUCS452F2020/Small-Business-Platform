@@ -35,12 +35,11 @@ describe('Register User Handler', () => {
         email: 'jc@mail.com',
       })
       .expect(201, {
-        authToken: 'cool-token'
+        authToken: 'cool-token',
       })
 
     expect(register).toBeCalledWith('Jason', 'Cox', 'j-THE_man.5', 'password123', 'jc@mail.com')
   })
-
 
   it('sends 409 if username taken', async () => {
     (register as jest.Mock).mockRejectedValue(new Error('UsernameTaken'))
@@ -76,7 +75,7 @@ describe('Register User Handler', () => {
     const tests = [
       {
         name: 'missing everything',
-        body: {}
+        body: {},
       },
       {
         name: 'missing first name',
