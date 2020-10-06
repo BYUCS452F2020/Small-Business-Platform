@@ -1,10 +1,24 @@
+import {createTables} from './db/db'
 import express from 'express'
+import {set as setRoutes} from './routes/routes'
 
-const app = express()
-const port = process.env.PORT || 8080
+(async () => {
+  // make sure database tables exist
+  try {
+    await createTables()
+  } catch (err) {
+    console.error('Unexpected error creating tables', err)
+    process.exit(1)
+  }
 
-app.get('/', (req, res) => {
-  res.send('Welcome to Spackle!')
-})
+  const app = express()
+  const port = process.env.PORT || 8080
 
-app.listen(port, () => console.log(`Server running on port ${port}`))
+  // parse json request bodies
+  app.use(express.json())
+
+  setRoutes(app)
+
+  app.listen(port, () => console.log(`Server running on port ${port}`))
+})()
+

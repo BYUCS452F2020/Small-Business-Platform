@@ -12,10 +12,15 @@ services:
 
   server:
     build: ./server
+    depends_on:
+      - db
     environment:
       - PORT=$SERVER_PORT
-      - POSTGRES_HOST=$POSTGRES_HOST
-      - POSTGRES_PORT=$POSTGRES_PORT
+      - PGHOST=db
+      - PGPORT=$POSTGRES_PORT
+      - PGUSER=$POSTGRES_USER
+      - PGPASSWORD=$POSTGRES_PASSWORD
+      - PGDATABASE=$POSTGRES_DB
     networks:
       - backend
     ports:
