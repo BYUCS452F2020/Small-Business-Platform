@@ -1,3 +1,30 @@
-h1 {
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2 {
+    font-weight: 500;
     text-align: center;
+}
+
+button.btn-plain {
+    background: #F8F8F8;
+    border: none;
+    border-radius: 1.5em;
+    box-shadow: -1rem -1rem 1.5rem rgba(255, 255, 255, 0.5),
+                1rem 1rem 4rem rgba(0, 0, 0, 0.25);
+    font-size: 1.2rem;
+    margin: 4rem 1rem;
+    padding: 1em;
+    width: calc(100% - 2rem);
+}
+
+button.btn-plain:hover {
+    box-shadow: -1rem -1rem 1.5rem rgba(255, 255, 255, 0.5),
+                1rem 1rem 4rem rgba(0, 0, 0, 0.5);
+    cursor: pointer;
 }

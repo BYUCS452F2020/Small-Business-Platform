@@ -1,11 +1,16 @@
 import React from 'react'
 import '../styles/index.css'
+import Backend from '../Backend'
+import BusinessRegistration from './BusinessRegistration'
+
+const backend = new Backend('http://localhost:8000')
 
 const App: React.FC = () => {
   return (
-    <div>
+    <>
       <h1>Hello Spackle!</h1>
-    </div>
+      <BusinessRegistration backend={backend}/>
+    </>
   )
 }
 
