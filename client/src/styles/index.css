@@ -14,6 +14,8 @@ h1, h2 {
 }
 
 button.btn-plain {
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
     background: #F8F8F8;
     border: none;
     border-radius: 1.5em;
@@ -29,4 +31,8 @@ button.btn-plain:hover {
     box-shadow: -1rem -1rem 1.5rem rgba(255, 255, 255, 0.5),
                 1rem 1rem 4rem rgba(0, 0, 0, 0.5);
     cursor: pointer;
+}
+
+button.btn-plain:active {
+    transform: scale(0.97);
 }

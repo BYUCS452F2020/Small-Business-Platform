@@ -13,6 +13,10 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
   },
 
   // adding .ts and .tsx to resolve.extensions will help babel look for .ts and .tsx files to transpile
@@ -38,15 +42,15 @@ module.exports = {
       // css-loader to bundle all the css files into one file and style-loader to add all the styles  inside the style tag of the document
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(jpg|png)$/,
         use: {
           loader: 'url-loader',
         },
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({

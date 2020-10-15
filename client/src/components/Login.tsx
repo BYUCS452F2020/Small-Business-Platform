@@ -25,10 +25,9 @@ const Login: React.FC<Props> = ({backend}: Props) => {
     // try {
     //   // await backend.loginUser(user)
 
-    //   // TODO: navigate to business page instead of alerting
-    //   alert('Business registered!')
+    //   // TODO: sends info to backend
     // } catch (err) {
-    //   console.error('registering business failed', err)
+    //   console.error('login failed', err)
     //   alert('Sorry, an unexpected error occurred. Please try again later.')
     // }
   }
@@ -71,7 +70,13 @@ const Login: React.FC<Props> = ({backend}: Props) => {
           <Link to='/signup'> Click here!</Link>
         </div>
 
-        <button className="button-style" onClick={handleSubmit} disabled={!username || !password}> Login </button>
+        <button
+          className="btn-plain"
+          type="submit"
+          onClick={handleSubmit}
+          disabled={!username || !password}>
+          Login
+        </button>
       </div>
 
     </div>

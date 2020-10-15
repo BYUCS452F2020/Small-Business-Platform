@@ -14,11 +14,11 @@ const backend = new Backend('http://localhost:8000')
 const AppRoutes = () => {
   return (
     <Switch>
+      <Route  path='/signup'>
+        <Signup backend={backend} />
+      </Route>
       <Route exact path='/'>
         <Login backend={backend}/>
-      </Route>
-      <Route path='/signup'>
-        <Signup backend={backend} />
       </Route>
       <Route path='/business/register'>
         <BusinessRegistration backend={backend}/>
