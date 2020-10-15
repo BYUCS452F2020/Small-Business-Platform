@@ -3,7 +3,6 @@ import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
 import '../styles/Login.css'
 import Backend from 'Backend'
-// import img from '../assets/image.jpg'
 
 interface Props {backend: Backend}
 
@@ -22,23 +21,15 @@ const Login: React.FC<Props> = ({backend}: Props) => {
 
     console.log('Logging in user', user)
     history.push('/home')
-    // try {
-    //   // await backend.loginUser(user)
-
-    //   // TODO: sends info to backend
-    // } catch (err) {
-    //   console.error('login failed', err)
-    //   alert('Sorry, an unexpected error occurred. Please try again later.')
-    // }
+    // TODO : Implement login with backend
   }
 
   return (
     <div className="center">
       <h1>SPACKLE</h1>
-      {/* <img src={img} alt="logo" /> */}
       <div>
         <LabeledInput
-          description="No spaces"
+          description=""
           inputType="input"
           label="Username"
           htmlAttrs={{
@@ -52,11 +43,10 @@ const Login: React.FC<Props> = ({backend}: Props) => {
         />
 
         <LabeledInput
-          description="Must include at least one capital letter, number, and symbol"
+          description=""
           inputType="input"
           label="Password"
           htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
             placeholder: 'password',
             required: true,
             type: 'password',
@@ -65,7 +55,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
           }}
         />
 
-        <div className="button-signup">
+        <div className="link-signup">
           Need to create an account?
           <Link to='/signup'> Click here!</Link>
         </div>

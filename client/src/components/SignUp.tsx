@@ -8,7 +8,10 @@ interface Props {backend: Backend}
 
 const Signup: React.FC<Props> = ({backend}: Props) => {
   const history = useHistory()
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
   const [username, setUsername] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmedPassword, setConfirmedPassword] = useState<string>('')
 
@@ -27,7 +30,35 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
       <h1>Sign up </h1>
       <div>
         <LabeledInput
-          description="No spaces"
+          description=""
+          inputType="input"
+          label="First Name"
+          htmlAttrs={{
+            pattern: '^[-_.a-zA-Z]+$',
+            placeholder: 'Jane',
+            required: true,
+            type: 'text',
+            value: firstName,
+            onChange: e => setFirstName(e.target.value),
+          }}
+        />
+
+        <LabeledInput
+          description=""
+          inputType="input"
+          label="Last Name"
+          htmlAttrs={{
+            pattern: '^[-_.a-zA-Z]+$',
+            placeholder: 'Doe',
+            required: true,
+            type: 'text',
+            value: lastName,
+            onChange: e => setLastName(e.target.value),
+          }}
+        />
+
+        <LabeledInput
+          description="letters, numbers, periods, dashes, and underscores only"
           inputType="input"
           label="Username"
           htmlAttrs={{
@@ -41,11 +72,22 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
         />
 
         <LabeledInput
-          description="Must include at least one capital letter, number, and symbol"
+          description="must contain @ symbol"
+          inputType="input"
+          label="Email"
+          htmlAttrs={{
+            placeholder: 'you@email.com',
+            required: true,
+            type: 'email',
+            value: email,
+            onChange: e => setEmail(e.target.value),
+          }}
+        />
+        <LabeledInput
+          description="must include at least one capital letter, number, and symbol"
           inputType="input"
           label="Password"
           htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
             placeholder: 'password',
             required: true,
             type: 'Password',
@@ -59,7 +101,6 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           inputType="input"
           label="Confirm password"
           htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
             placeholder: 'confirm password',
             required: true,
             type: 'password',
@@ -75,7 +116,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
         <button
           className="btn-plain"
           type="submit"
-          disabled={!username || !password || !confirmedPassword}
+          disabled={!firstName || !lastName ||
+                    !username || !email || !password || !confirmedPassword}
           onClick={handleSubmit}>
           Next
         </button>
