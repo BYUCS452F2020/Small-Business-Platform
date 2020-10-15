@@ -14,7 +14,7 @@ const AppRoutes = () => {
   return (
     <Switch>
       <Route exact path='/'>
-        <Login />
+        <Login backend={backend}/>
       </Route>
       <Route path='/business/register'>
         <BusinessRegistration backend={backend}/>

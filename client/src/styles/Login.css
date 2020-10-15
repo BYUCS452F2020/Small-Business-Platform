@@ -37,3 +37,9 @@ h1 {
 .button-style:active {
     transform: scale(1);
 }
+
+.button-signup {
+    text-align: end;
+    margin-bottom: 5rem;
+    padding-right: 1rem;
+}

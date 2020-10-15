@@ -18,6 +18,11 @@ type TextAreaProps = BaseProps & {
   htmlAttrs: React.TextareaHTMLAttributes<HTMLTextAreaElement>
 }
 
+// type PasswordProps = BaseProps & {
+//   inputType: 'password'
+//   htmlAttrs: React.InputHTMLAttributes<HTMLInputElement>
+// }
+
 type Props = InputProps | TextAreaProps
 
 const LabeledInput: React.FC<Props> = (props: Props) => {
