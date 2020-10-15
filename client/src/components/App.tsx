@@ -19,9 +19,9 @@ const AppRoutes = () => {
       <Route path='/business/register'>
         <BusinessRegistration backend={backend}/>
       </Route>
-      <Route path='/dashboard'>
-        <Link to='/dashboard/portfolio'>
-          dashboard portfolio
+      <Route path='/home'>
+        <Link to='/home/user'>
+          user portfolio
         </Link>
       </Route>
     </Switch>

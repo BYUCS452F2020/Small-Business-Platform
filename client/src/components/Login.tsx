@@ -21,7 +21,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
     }
 
     console.log('Logging in user', user)
-    history.push('/business/register')
+    history.push('/home')
     // try {
     //   // await backend.loginUser(user)
 
@@ -66,8 +66,8 @@ const Login: React.FC<Props> = ({backend}: Props) => {
           }}
         />
 
-        <div className="button-signup">
-            Don't have an account? Click here!
+        <div>
+          {/* <Text> Dp</Text> */}
         </div>
 
         <button className="button-style" onClick={handleSubmit}> Login </button>
