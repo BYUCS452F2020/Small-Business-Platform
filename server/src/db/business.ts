@@ -26,7 +26,7 @@ export async function create(
 ): Promise<number> {
   try{
     const result = await pool.query(
-      `INSERT INTO "business" (name, email, handle, website description, logo, userID)
+      `INSERT INTO "business" (name, email, handle, website, description, logo, userID)
             VALUES($1, $2, $3, $4, $5, $6, $7)
             RETURNING businessID`,
       [name, email, handle, website, desciption, logo, userID],
