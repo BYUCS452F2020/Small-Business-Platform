@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
 import '../styles/Login.css'
 import Backend from 'Backend'
@@ -39,12 +39,12 @@ const Login: React.FC<Props> = ({backend}: Props) => {
       {/* <img src={img} alt="logo" /> */}
       <div>
         <LabeledInput
-          description="letters, numbers, periods, dashes, and underscores only"
+          description="No spaces"
           inputType="input"
-          label="Handle"
+          label="Username"
           htmlAttrs={{
             pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'awesomeco',
+            placeholder: 'username',
             required: true,
             type: 'text',
             value: username,
@@ -58,19 +58,20 @@ const Login: React.FC<Props> = ({backend}: Props) => {
           label="Password"
           htmlAttrs={{
             pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'awesomeco',
+            placeholder: 'password',
             required: true,
-            type: 'text',
+            type: 'password',
             value: password,
             onChange: e => setPassword(e.target.value),
           }}
         />
 
-        <div>
-          {/* <Text> Dp</Text> */}
+        <div className="button-signup">
+          Don't have an account?
+          <Link to='/business/register'> Click here!</Link>
         </div>
 
-        <button className="button-style" onClick={handleSubmit}> Login </button>
+        <button className="button-style" onClick={handleSubmit} disabled={!username || !password}> Login </button>
       </div>
 
     </div>
