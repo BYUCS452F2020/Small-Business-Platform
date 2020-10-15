@@ -2,15 +2,8 @@ import express from 'express'
 import registerUser from './handlers/register-user'
 import loginUser from './handlers/login-user'
 import handleError from './handlers/error'
-
-// Express doesn't handle errors thrown in async code, so this does
-function withErrHandling(handler: express.RequestHandler): express.RequestHandler {
-  return (req, res, next) => {
-    return Promise.resolve(handler(req, res, next))
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .catch((err: any) => next(err))
-  }
-}
+import withErrHandling from './middlewares/with-err-handling'
+import authMiddleware, {assertAuthenticated} from './middlewares/auth'
 
 export function set(app: express.Application): void {
   // TODO: remove this once front- and back-ends are hosted on same domain
@@ -23,8 +16,13 @@ export function set(app: express.Application): void {
   app.post('/user/register', withErrHandling(registerUser))
   app.post('/user/login', withErrHandling(loginUser))
 
-  // TODO: use a real router here - this is just for frontend testing
-  app.post('/business/register', (req, res) => res.status(200).send())
+  // TODO: use a real router here - this is just for testing
+  app.post('/business/register', authMiddleware, (req, res) => {
+    assertAuthenticated(req)
+
+    console.log('authenticated as', req.auth.userId)
+    res.status(200).send()
+  })
 
   // error handling - must be last!
   app.use(handleError)
