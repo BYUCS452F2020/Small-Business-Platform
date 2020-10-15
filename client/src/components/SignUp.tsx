@@ -24,61 +24,63 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <h1>Sign up </h1>
       <div>
-        <LabeledInput
-          description="No spaces"
-          inputType="input"
-          label="Username"
-          htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'username',
-            required: true,
-            type: 'text',
-            value: username,
-            onChange: e => setUsername(e.target.value),
-          }}
-        />
+        <h1>Sign up </h1>
+        <div>
+          <LabeledInput
+            description="No spaces"
+            inputType="input"
+            label="Username"
+            htmlAttrs={{
+              pattern: '^[-_.a-zA-Z0-9]+$',
+              placeholder: 'username',
+              required: true,
+              type: 'text',
+              value: username,
+              onChange: e => setUsername(e.target.value),
+            }}
+          />
 
-        <LabeledInput
-          description="Must include at least one capital letter, number, and symbol"
-          inputType="input"
-          label="Password"
-          htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'password',
-            required: true,
-            type: 'Password',
-            value: password,
-            onChange: e => setPassword(e.target.value),
-          }}
-        />
+          <LabeledInput
+            description="Must include at least one capital letter, number, and symbol"
+            inputType="input"
+            label="Password"
+            htmlAttrs={{
+              pattern: '^[-_.a-zA-Z0-9]+$',
+              placeholder: 'password',
+              required: true,
+              type: 'Password',
+              value: password,
+              onChange: e => setPassword(e.target.value),
+            }}
+          />
 
-        <LabeledInput
-          description=""
-          inputType="input"
-          label="Confirm password"
-          htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'confirm password',
-            required: true,
-            type: 'password',
-            value: confirmedPassword,
-            onChange: e => setConfirmedPassword(e.target.value),
-          }}
-        />
-        <div className="link-login">
-          Already have an account?
-          <Link to='/'> Click here!</Link>
+          <LabeledInput
+            description=""
+            inputType="input"
+            label="Confirm password"
+            htmlAttrs={{
+              pattern: '^[-_.a-zA-Z0-9]+$',
+              placeholder: 'confirm password',
+              required: true,
+              type: 'password',
+              value: confirmedPassword,
+              onChange: e => setConfirmedPassword(e.target.value),
+            }}
+          />
+          <div className="link-login">
+            Already have an account?
+            <Link to='/'> Click here!</Link>
+          </div>
+
+          <button
+            className="btn-plain"
+            type="submit"
+            disabled={!username || !password || !confirmedPassword}
+            onClick={handleSubmit}>
+            Next
+          </button>
         </div>
-
-        <button
-          className="btn-plain"
-          type="submit"
-          disabled={!username || !password || !confirmedPassword}
-          onClick={handleSubmit}>
-          Next
-        </button>
       </div>
     </div>
   )

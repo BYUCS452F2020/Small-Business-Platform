@@ -5,6 +5,11 @@
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: #F8F8F8;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
 }
 
 h1, h2 {
@@ -35,4 +40,11 @@ button.btn-plain:hover {
 
 button.btn-plain:active {
     transform: scale(0.97);
+}
+
+.center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

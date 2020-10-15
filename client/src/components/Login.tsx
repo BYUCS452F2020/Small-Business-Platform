@@ -34,51 +34,52 @@ const Login: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <h1>SPACKLE</h1>
-      {/* <img src={img} alt="logo" /> */}
       <div>
-        <LabeledInput
-          description="No spaces"
-          inputType="input"
-          label="Username"
-          htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'username',
-            required: true,
-            type: 'text',
-            value: username,
-            onChange: e => setUsername(e.target.value),
-          }}
-        />
+        <h1>SPACKLE</h1>
+        {/* <img src={img} alt="logo" /> */}
+        <div>
+          <LabeledInput
+            description="No spaces"
+            inputType="input"
+            label="Username"
+            htmlAttrs={{
+              pattern: '^[-_.a-zA-Z0-9]+$',
+              placeholder: 'username',
+              required: true,
+              type: 'text',
+              value: username,
+              onChange: e => setUsername(e.target.value),
+            }}
+          />
 
-        <LabeledInput
-          description="Must include at least one capital letter, number, and symbol"
-          inputType="input"
-          label="Password"
-          htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'password',
-            required: true,
-            type: 'password',
-            value: password,
-            onChange: e => setPassword(e.target.value),
-          }}
-        />
+          <LabeledInput
+            description="Must include at least one capital letter, number, and symbol"
+            inputType="input"
+            label="Password"
+            htmlAttrs={{
+              pattern: '^[-_.a-zA-Z0-9]+$',
+              placeholder: 'password',
+              required: true,
+              type: 'password',
+              value: password,
+              onChange: e => setPassword(e.target.value),
+            }}
+          />
 
-        <div className="button-signup">
-          Need to create an account?
-          <Link to='/signup'> Click here!</Link>
+          <div className="button-signup">
+            Need to create an account?
+            <Link to='/signup'> Click here!</Link>
+          </div>
+
+          <button
+            className="btn-plain"
+            type="submit"
+            onClick={handleSubmit}
+            disabled={!username || !password}>
+            Login
+          </button>
         </div>
-
-        <button
-          className="btn-plain"
-          type="submit"
-          onClick={handleSubmit}
-          disabled={!username || !password}>
-          Login
-        </button>
       </div>
-
     </div>
   )
 }
