@@ -4,6 +4,7 @@ import Login from './Login'
 import '../styles/index.css'
 import Backend from '../Backend'
 import BusinessRegistration from './BusinessRegistration'
+import Signup from './SignUp'
 
 const backend = new Backend('http://localhost:8000')
 
@@ -15,6 +16,9 @@ const AppRoutes = () => {
     <Switch>
       <Route exact path='/'>
         <Login backend={backend}/>
+      </Route>
+      <Route path='/signup'>
+        <Signup backend={backend} />
       </Route>
       <Route path='/business/register'>
         <BusinessRegistration backend={backend}/>

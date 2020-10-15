@@ -67,8 +67,8 @@ const Login: React.FC<Props> = ({backend}: Props) => {
         />
 
         <div className="button-signup">
-          Don't have an account?
-          <Link to='/business/register'> Click here!</Link>
+          Need to create an account?
+          <Link to='/signup'> Click here!</Link>
         </div>
 
         <button className="button-style" onClick={handleSubmit} disabled={!username || !password}> Login </button>
