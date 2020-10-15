@@ -1,5 +1,6 @@
 import express from 'express'
 import registerUser from './handlers/register-user'
+import loginUser from './handlers/login-user'
 import handleError from './handlers/error'
 
 // Express doesn't handle errors thrown in async code, so this does
@@ -20,6 +21,7 @@ export function set(app: express.Application): void {
   })
 
   app.post('/user/register', withErrHandling(registerUser))
+  app.post('/user/login', withErrHandling(loginUser))
 
   // TODO: use a real router here - this is just for frontend testing
   app.post('/business/register', (req, res) => res.status(200).send())

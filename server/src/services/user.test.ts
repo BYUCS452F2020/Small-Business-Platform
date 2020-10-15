@@ -1,7 +1,10 @@
-import {hashPassword} from '../util/hash'
-import {create as createUser} from '../db/user'
+import {compare, hashPassword} from '../util/hash'
+import {
+  create as createUser,
+  getAuthInfo,
+} from '../db/user'
 import {create as createAuthToken} from '../db/auth-token'
-import {register} from './user'
+import {login, register} from './user'
 
 jest.mock('../util/hash')
 jest.mock('../db/user')
@@ -38,6 +41,43 @@ describe('User Service', () => {
         .toThrow('ruh-roh')
 
       expect(createAuthToken).not.toBeCalled()
+    })
+  })
+
+  describe('login', () => {
+    beforeEach(() => {
+      (compare as jest.Mock).mockResolvedValue(true)
+      ;(getAuthInfo as jest.Mock).mockResolvedValue({id: 123, password: 'hashed'})
+      ;(createAuthToken as jest.Mock).mockResolvedValue('auth-token-yeah')
+    })
+
+    it('logs in user and returns auth token', async () => {
+      const token = await login('jcc', 'abc')
+      expect(token).toBe('auth-token-yeah')
+      expect(getAuthInfo).toBeCalledWith('jcc')
+      expect(compare).toBeCalledWith('abc', 'hashed')
+      expect(createAuthToken).toBeCalledWith(123)
+    })
+
+    it('throws IncorrectPassword if password incorrect', async () => {
+      (compare as jest.Mock).mockResolvedValue(false)
+      await expect(login('jcc', 'abc'))
+        .rejects
+        .toThrow('IncorrectPassword')
+    })
+
+    it('throws errors from getting auth info', async () => {
+      (getAuthInfo as jest.Mock).mockRejectedValue(new Error('UserNotFound'))
+      await expect(login('jcc', 'abc'))
+        .rejects
+        .toThrow('UserNotFound')
+    })
+
+    it('throws errors from creating auth token', async () => {
+      (createAuthToken as jest.Mock).mockRejectedValue(new Error('Failed!'))
+      await expect(login('jcc', 'abc'))
+        .rejects
+        .toThrow('Failed!')
     })
   })
 })

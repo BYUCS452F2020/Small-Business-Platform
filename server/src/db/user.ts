@@ -40,3 +40,27 @@ export async function create(
     throw new Error('FailedCreateUser')
   }
 }
+
+interface AuthInfo {
+  id: number
+  password: string
+}
+
+export async function getAuthInfo(username: string): Promise<AuthInfo> {
+  let result
+  try {
+    result = await pool.query(
+      'SELECT id, password FROM "user" WHERE username = $1',
+      [username],
+    )
+  } catch (err) {
+    console.error('Unexpected error getting password', err)
+    throw new Error('FailedGetAuthInfo')
+  }
+
+  if (result.rows.length === 0) {
+    throw new Error('UserNotFound')
+  }
+
+  return result.rows[0]
+}
