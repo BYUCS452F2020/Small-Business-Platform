@@ -8,9 +8,6 @@ import Signup from './SignUp'
 
 const backend = new Backend('http://localhost:8000')
 
-// import * as logo from '../assets/SpackleLogo.png'
-// const logo = [require('../assets/SpackleLogo.png')]
-
 const AppRoutes = () => {
   return (
     <Switch>
