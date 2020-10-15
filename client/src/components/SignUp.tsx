@@ -27,7 +27,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <div>
+      <form>
         <h1>Sign up </h1>
         <LabeledInput
           description=""
@@ -122,7 +122,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           onClick={handleSubmit}>
           Next
         </button>
-      </div>
+      </form>
     </div>
   )
 }

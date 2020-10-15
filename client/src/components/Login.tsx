@@ -26,50 +26,48 @@ const Login: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <div>
+      <form>
         <h1>SPACKLE</h1>
-        <div>
-          <LabeledInput
-            description=""
-            inputType="input"
-            label="Username"
-            htmlAttrs={{
-              pattern: '^[-_.a-zA-Z0-9]+$',
-              placeholder: 'username',
-              required: true,
-              type: 'text',
-              value: username,
-              onChange: e => setUsername(e.target.value),
-            }}
-          />
+        <LabeledInput
+          description=""
+          inputType="input"
+          label="Username"
+          htmlAttrs={{
+            pattern: '^[-_.a-zA-Z0-9]+$',
+            placeholder: 'username',
+            required: true,
+            type: 'text',
+            value: username,
+            onChange: e => setUsername(e.target.value),
+          }}
+        />
 
-          <LabeledInput
-            description=""
-            inputType="input"
-            label="Password"
-            htmlAttrs={{
-              placeholder: 'password',
-              required: true,
-              type: 'password',
-              value: password,
-              onChange: e => setPassword(e.target.value),
-            }}
-          />
+        <LabeledInput
+          description=""
+          inputType="input"
+          label="Password"
+          htmlAttrs={{
+            placeholder: 'password',
+            required: true,
+            type: 'password',
+            value: password,
+            onChange: e => setPassword(e.target.value),
+          }}
+        />
 
-          <div className="link-signup">
-            Need to create an account?
-            <Link to='/signup'> Click here!</Link>
-          </div>
-
-          <button
-            className="btn-plain"
-            type="submit"
-            onClick={handleSubmit}
-            disabled={!username || !password}>
-            Login
-          </button>
+        <div className="link-signup">
+          Need to create an account?
+          <Link to='/signup'> Click here!</Link>
         </div>
-      </div>
+
+        <button
+          className="btn-plain"
+          type="submit"
+          onClick={handleSubmit}
+          disabled={!username || !password}>
+          Login
+        </button>
+      </form>
     </div>
   )
 }
