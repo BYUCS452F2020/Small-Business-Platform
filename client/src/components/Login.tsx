@@ -25,7 +25,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
   }
 
   return (
-    <div className="center">
+    <div className="center-login">
       <h1>SPACKLE</h1>
       <div>
         <LabeledInput
@@ -38,6 +38,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'text',
             value: username,
+            maxLength : 20,
             onChange: e => setUsername(e.target.value),
           }}
         />
@@ -51,6 +52,8 @@ const Login: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'password',
             value: password,
+            minLength : 8,
+            maxLength : 64,
             onChange: e => setPassword(e.target.value),
           }}
         />

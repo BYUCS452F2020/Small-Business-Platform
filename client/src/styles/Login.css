@@ -2,13 +2,13 @@ h1 {
     font-size: 64px;
 }
 
-.center {
-    position: absolute;
+.center-login {
+    position: absolute; 
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    margin: auto;
+    margin: inherit;
     display: grid;
     justify-content: center;
     align-items: center;

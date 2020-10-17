@@ -39,5 +39,4 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true
   }
-  // "include": ["./src/declaration.d.ts"]
 }

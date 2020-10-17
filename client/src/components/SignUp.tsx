@@ -26,7 +26,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
   }
 
   return (
-    <div className="center">
+    <div className="center-signup">
       <h1>Sign up </h1>
       <div>
         <LabeledInput
@@ -34,11 +34,12 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           inputType="input"
           label="First Name"
           htmlAttrs={{
-            pattern: '^[-_.a-zA-Z]+$',
+            pattern: '^[A-Za-zÀ-ÖØ-öø-ÿ]+$',
             placeholder: 'Jane',
             required: true,
             type: 'text',
             value: firstName,
+            maxLength : 20,
             onChange: e => setFirstName(e.target.value),
           }}
         />
@@ -48,11 +49,12 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           inputType="input"
           label="Last Name"
           htmlAttrs={{
-            pattern: '^[-_.a-zA-Z]+$',
+            pattern: '^[A-Za-zÀ-ÖØ-öø-ÿ]+$',
             placeholder: 'Doe',
             required: true,
             type: 'text',
             value: lastName,
+            maxLength : 20,
             onChange: e => setLastName(e.target.value),
           }}
         />
@@ -67,12 +69,13 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'text',
             value: username,
+            maxLength : 20,
             onChange: e => setUsername(e.target.value),
           }}
         />
 
         <LabeledInput
-          description="must contain @ symbol"
+          description=""
           inputType="input"
           label="Email"
           htmlAttrs={{
@@ -80,6 +83,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'email',
             value: email,
+            minLength : 5,
+            maxLength : 32,
             onChange: e => setEmail(e.target.value),
           }}
         />
@@ -92,6 +97,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'Password',
             value: password,
+            minLength : 8,
+            maxLength : 64,
             onChange: e => setPassword(e.target.value),
           }}
         />
