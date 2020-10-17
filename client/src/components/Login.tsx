@@ -25,9 +25,9 @@ const Login: React.FC<Props> = ({backend}: Props) => {
   }
 
   return (
-    <div className="center-login">
-      <h1>SPACKLE</h1>
-      <div>
+    <div className="center">
+      <form>
+        <h1>SPACKLE</h1>
         <LabeledInput
           description=""
           inputType="input"
@@ -70,8 +70,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
           disabled={!username || !password}>
           Login
         </button>
-      </div>
-
+      </form>
     </div>
   )
 }

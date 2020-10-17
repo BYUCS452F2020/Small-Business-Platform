@@ -2,18 +2,6 @@ h1 {
     font-size: 64px;
 }
 
-.center-login {
-    position: absolute; 
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: inherit;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-}
 .link-signup {
     text-align: end;
     padding-right: 1rem;

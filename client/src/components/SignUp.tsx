@@ -26,9 +26,9 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
   }
 
   return (
-    <div className="center-signup">
-      <h1>Sign up </h1>
-      <div>
+    <div className="center">
+      <form>
+        <h1>Sign up </h1>
         <LabeledInput
           description=""
           inputType="input"
@@ -115,6 +115,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             onChange: e => setConfirmedPassword(e.target.value),
           }}
         />
+
         <div className="link-login">
           Already have an account?
           <Link to='/'> Click here!</Link>
@@ -128,7 +129,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           onClick={handleSubmit}>
           Next
         </button>
-      </div>
+      </form>
     </div>
   )
 }
