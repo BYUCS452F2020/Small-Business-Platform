@@ -8,7 +8,7 @@ export async function createTable(): Promise<void>{
             name         VARCHAR(20) NOT NULL UNIQUE,
             hadle        VARCHAR(20) NOT NULL UNIQUE,
             email        VARCHAR(20) NOT NULL,
-            logo         BLOB,
+            logo         BYTEA,
             website      VARCHAR(32),
             description  VARCHAR(100)
         )`,
@@ -22,7 +22,7 @@ export async function create(
   website: (string|undefined),
   desciption: (string|undefined),
   logo: (File|undefined),
-  userID: string,
+  userID: number,
 ): Promise<number> {
   try{
     const result = await pool.query(

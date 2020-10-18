@@ -8,16 +8,12 @@ export async function register(
   website: (string|undefined),
   desciption: (string|undefined),
   logo: (File|undefined),
-  authToken: string,
+  userID: number,
 ): Promise<string|null> {
-  let userID
-  try{
-    // userID = await validateAuthToken(authToken)
-  } catch(err) {
-    console.error('invalid authToken', err)
-    return null
-  }
-  userID = '123abc'
+  console.log(
+    'name: ', name, 'email: ', email, 'handle: ', handle, 'website: ', 
+    website, 'desciption: ', desciption, 'logo: ', logo, 'userID: ', userID);
+    console.log('creating a business!')
   await createBusiness(name, email, handle, website, desciption, logo, userID)
   return handle
 }
