@@ -20,7 +20,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
     }
 
     console.log('Logging in user', user)
-    history.push('/home')
+    history.push('/home/user')
     // TODO : Implement login with backend
   }
 

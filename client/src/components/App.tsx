@@ -5,6 +5,7 @@ import '../styles/index.css'
 import Backend from '../Backend'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './SignUp'
+import UserPortfolio from './UserPortfolio'
 
 const backend = new Backend('http://localhost:8000')
 
@@ -20,10 +21,10 @@ const AppRoutes = () => {
       <Route path='/business/register'>
         <BusinessRegistration backend={backend}/>
       </Route>
+      <Route path='/home/user'>
+        <UserPortfolio />
+      </Route>
       <Route path='/home'>
-        <Link to='/home/user'>
-          user portfolio
-        </Link>
       </Route>
     </Switch>
   )
