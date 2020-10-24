@@ -26,14 +26,10 @@ const AppRoutes = () => {
       <PrivateRoute exact path='/business/register'>
         <BusinessRegistration />
       </PrivateRoute>
+      <Route exact path='/home/user'>
+        <UserPortfolio />
+      </Route>
       <PrivateRoute exact path='/home'>
-        <Link to='/home/user'>
-          user portfolio
-        </Link>
-        <br/>
-        <Link to='/business/register'>
-          register business
-        </Link>
       </PrivateRoute>
       <Route path='*'>
         404 Not Found

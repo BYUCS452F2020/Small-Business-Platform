@@ -1,12 +1,10 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { FaNewspaper, FaPencilAlt } from 'react-icons/fa'
 import icon from '../assets/demo_icon.jpg'
-import '../styles/user-portfolio.css'
+import '../styles/user-portfolio.scss'
 
 const UserPortfolio : React.FC = () => {
   return (
-    <div style={{padding: '0em 1em'}}>
+    <div className="portfolio-body">
       <div className="top-half">
         {/* TODO: Fix the "left-half" and "container" classes to be responsive for small screens */}
         <div className="left-half">
@@ -51,17 +49,6 @@ const UserPortfolio : React.FC = () => {
       </div>
       <hr className="solid" />
       <div className="bottom-half">
-        <div className="action-bar">
-          {/* TODO: Conditionally replace the bottom-half instead of having Links */}
-          <Link to='/'>
-            <FaNewspaper />
-            Portfolio
-          </Link>
-          <Link to='/'>
-            <FaPencilAlt />
-            Reviews
-          </Link>
-        </div>
         <div className="portfolio-gallery">
           {/* TODO: Get the portfolio items and populate the portfolio */}
           <div className="item-placeholder">Item 1</div>
