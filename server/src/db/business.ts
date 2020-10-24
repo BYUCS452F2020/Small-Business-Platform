@@ -45,3 +45,42 @@ export async function create(
     }
   }
 }
+
+interface Business {
+  name: string
+  email: string
+  handle: string
+  userId: number
+  website?: string
+  logo?: string
+  description?: string
+}
+
+export async function get(handle: string): Promise<Business> {
+  let result
+  try {
+    result = await pool.query(
+      `SELECT name, email, handle, website, description, logo, userID
+       FROM business
+       WHERE handle = $1`,
+      [handle],
+    )
+  } catch (err) {
+    console.error('Unexpected error getting business', handle, err)
+    throw new Error('FailedGetBusiness')
+  }
+
+  if (result.rows.length === 0) {
+    throw new Error('BusinessNotFound')
+  }
+
+  return {
+    name: result.rows[0].name,
+    handle: result.rows[0].handle,
+    email: result.rows[0].email,
+    userId: result.rows[0].userid,
+    website: result.rows[0].website || undefined,
+    logo: result.rows[0].logo && result.rows[0].logo.toString() || undefined,
+    description: result.rows[0].description || undefined,
+  }
+}
