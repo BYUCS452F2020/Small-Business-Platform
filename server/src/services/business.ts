@@ -1,5 +1,4 @@
 import {create as createBusiness} from '../db/business'
-// import {validate as validateAuthToken} from '../db/auth-token'
 
 export async function register(
   name: string,

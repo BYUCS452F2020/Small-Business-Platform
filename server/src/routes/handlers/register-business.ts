@@ -33,7 +33,7 @@ const schema = zod.object({
 
 const handler: express.RequestHandler = async (req, res) => {
   const body = schema.parse(req.body)
-  // assertAuthenticated(req)
+  // TODO: assertAuthenticated(req) // Do this when user auth backend is working
 
   try {
     const response = await register(
@@ -43,8 +43,7 @@ const handler: express.RequestHandler = async (req, res) => {
       body.website,
       body.description,
       body.logo,
-      // req.auth.userId,
-      123
+      123 // TODO: replace 123 with req.auth.userId,
     )
     res.status(201).json({response})
   } catch (err) {
