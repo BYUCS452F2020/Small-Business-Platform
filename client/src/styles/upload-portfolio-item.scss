@@ -2,7 +2,13 @@ section.portfolio-upload{
   margin: auto;
   max-width: 75rem;
   min-width: 30rem;
-  textarea.description{
+  div.text-image-block{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    textarea.description{
+      flex-basis: 50%; 
+      flex-grow: 0;
       border: none;
       overflow: auto;
       outline: none;
@@ -13,11 +19,21 @@ section.portfolio-upload{
       font-family: inherit; 
       font-size: inherit; 
       min-height: 8rem;
-      background-color: inherit
+      background-color: #DEDEDE
+    }
+    div.image-block{
+      img.image-preview{
+        height: 450px; 
+        width: 450px; 
+        margin: auto;
+        object-fit: cover;
+        border-radius: .3em;
+      }
+    }
   }
+    
   button.smaller{
     width: calc(30% - 2rem);
-    align-self: flex-end;
     float: right;
   }
 }
