@@ -3,19 +3,17 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Link,
-  Redirect,
 } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
 import Login from './Login'
 import '../styles/index.scss'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './Signup'
+import BusinessPortfolio from './BusinessPortfolio'
 
 const AppRoutes = () => {
   return (
     <Switch>
-      <Redirect exact from="/" to="/home" />
       <Route exact path='/signup'>
         <Signup />
       </Route>
@@ -25,14 +23,10 @@ const AppRoutes = () => {
       <PrivateRoute exact path='/business/register'>
         <BusinessRegistration />
       </PrivateRoute>
+      <Route exact path='/'>
+        <BusinessPortfolio />
+      </Route>
       <PrivateRoute exact path='/home'>
-        <Link to='/home/user'>
-          user portfolio
-        </Link>
-        <br/>
-        <Link to='/business/register'>
-          register business
-        </Link>
       </PrivateRoute>
       <Route path='*'>
         404 Not Found
