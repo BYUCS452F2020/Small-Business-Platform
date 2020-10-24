@@ -135,7 +135,7 @@ const Signup: React.FC = () => {
 
         <div className="link-login">
           Already have an account?
-          <Link to='/'> Click here!</Link>
+          <Link to='/' style={{textDecoration : 'none', color : 'blue'}}> Click here!</Link>
         </div>
 
         <button

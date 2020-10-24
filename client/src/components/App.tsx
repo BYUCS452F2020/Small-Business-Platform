@@ -11,6 +11,7 @@ import Login from './Login'
 import '../styles/index.scss'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './Signup'
+import UserPortfolio from './UserPortfolio'
 
 const AppRoutes = () => {
   return (
