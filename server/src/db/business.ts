@@ -22,9 +22,9 @@ export async function create(
   name: string,
   email: string,
   handle: string,
-  website: (string | undefined),
-  desciption: (string | undefined),
-  logo: (File | undefined),
+  website?: string,
+  desciption?: string,
+  logo?: File,
   userID: number,
 ): Promise<number> {
   try {
