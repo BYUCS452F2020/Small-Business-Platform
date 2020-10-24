@@ -3,15 +3,18 @@ import FileUpload from './FileUpload'
 import '../styles/upload-portfolio-item.scss'
 import {addPortfolio} from '../Backend'
 
+interface Props {handle: string}
 
-const UploadPortfolioItem: React.FC = () => {
+
+const UploadPortfolioItem: React.FC <Props> = ({handle}: Props) => {
   const [description, setDescription] = useState<string>('')
   const [previewFile, setPreviewFile] = useState<string|null>('')
 
   async function handleSubmit() {
     const portfolioItem = {
       description: description,
-      file: previewFile
+      file: previewFile,
+      handle: handle
     }
   
     try{

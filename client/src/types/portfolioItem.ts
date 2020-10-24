@@ -1,4 +1,5 @@
 export default interface PortfolioItem {
   description: string,
-  file: string | null
+  file: string | null,
+  handle: string
 }

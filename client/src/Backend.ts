@@ -99,7 +99,8 @@ export async function addPortfolio(portfolioItem: PortfolioItem): Promise<void> 
   try {
     await axios.post(url, {
       description: portfolioItem.description,
-      file: portfolioItem.file
+      file: portfolioItem.file,
+      handle: portfolioItem.handle
     }, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,

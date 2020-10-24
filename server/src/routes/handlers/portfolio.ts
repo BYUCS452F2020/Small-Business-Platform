@@ -5,7 +5,8 @@ import {insertPortfolioItem} from '../../services/portfolio'
 
 const schema = zod.object({
   description: zod.string(),
-  file: zod.string()
+  file: zod.string(),
+  handle: zod.string()
 })
 
 const handler: express.RequestHandler = async (req, res) => {
@@ -15,7 +16,7 @@ const handler: express.RequestHandler = async (req, res) => {
     await insertPortfolioItem(
       body.description,
       body.file,
-      req.auth.userId
+      body.handle
     )
     res.status(201).send()
   } catch(err) {

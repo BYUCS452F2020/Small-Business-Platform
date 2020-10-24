@@ -21,7 +21,7 @@ const AppRoutes = () => {
         <Signup />
       </Route>
       <Route exact path='/test'>
-        <UploadItem/>
+        <UploadItem handle='natehood'/>
       </Route>
       <Route exact path='/login'>
         <Login />

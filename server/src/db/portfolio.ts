@@ -14,16 +14,25 @@ export async function createTable(): Promise<void> {
 export async function insert(
   description: string,
   file: string,
-  userID: number,
+  businessHandle: string,
 ): Promise<void> {
   try {
-    await pool.query(
-      `INSERT INTO portfolio (userID, description, file)
-            VALUES($1, $2, $3)
-            RETURNING portfolioID`,
-      [userID, description, file],
+   let result = await pool.query(
+      `SELECT businessID
+      FROM business
+      WHERE handle = $1`,
+      [businessHandle],
     )
+    if(result.rows && result.rows[0] && result.rows[0].businessid){
+      let businessID = result.rows[0].businessid
+      await pool.query(
+        `INSERT INTO portfolio (userID, description, file)
+              VALUES($1, $2, $3)
+              RETURNING portfolioID`,
+        [businessID, description, file],
+      )
+    }
   } catch (err) {
-    throw new Error('FailedCreateBusiness')
+    throw new Error('FailedCreatePortfolio')
   }
 }

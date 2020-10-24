@@ -33,10 +33,10 @@ describe('Routes', () => {
         method: 'post',
         path: '/user/login',
       },
-      {
-        method: 'post',
-        path: '/business/register',
-      },
+      // {
+      //   method: 'post',
+      //   path: '/business/register',
+      // },
     ]
 
     for (const {method, path} of routes) {
