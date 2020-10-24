@@ -5,6 +5,7 @@ import '../styles/index.scss'
 import Backend from '../Backend'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './Signup'
+import UploadItem from './UploadPortfolioItem'
 
 const backend = new Backend('http://localhost:8000')
 
@@ -13,6 +14,9 @@ const AppRoutes = () => {
     <Switch>
       <Route exact path='/signup'>
         <Signup backend={backend} />
+      </Route>
+      <Route exact path='/test'>
+        <UploadItem backend={backend}/>
       </Route>
       <Route exact path='/'>
         <Login backend={backend}/>

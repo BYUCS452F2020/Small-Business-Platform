@@ -1,5 +1,6 @@
 import Business from './types/business'
 import User from './types/user'
+import PortfolioItem from './types/portfolioItem'
 import axios from 'axios'
 
 export default class Backend {
@@ -82,5 +83,9 @@ export default class Backend {
         throw new Error('Sorry, an unexpected error occurred. Please try again later.')
       }
     }
+  }
+
+  async addPortfolio(portfolioItem: PortfolioItem): Promise<void> {
+    console.log('this is what we\'re uploading: ', portfolioItem)
   }
 }

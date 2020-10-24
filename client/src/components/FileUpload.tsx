@@ -14,7 +14,7 @@ const FileUpload: React.FC<Props> = (props: Props) => {
   return (
     <LabeledInput
       inputType="input"
-      label="Logo"
+      label={props.label}
       htmlAttrs={{
         accept: props.accept.join(', '),
         type: 'file',

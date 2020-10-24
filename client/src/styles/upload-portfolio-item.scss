@@ -1,0 +1,23 @@
+section.portfolio-upload{
+  margin: auto;
+  max-width: 75rem;
+  min-width: 30rem;
+  textarea.description{
+      border: none;
+      overflow: auto;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      resize: none; /*remove the resize handle on the bottom right*/
+      font-family: inherit; 
+      font-size: inherit; 
+      min-height: 8rem;
+      background-color: inherit
+  }
+  button.smaller{
+    width: calc(30% - 2rem);
+    align-self: flex-end;
+    float: right;
+  }
+}
