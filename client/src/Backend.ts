@@ -23,6 +23,16 @@ export default class Backend {
       headers: {
         Authorization: `Bearer ${this.authToken}`,
       },
-    })
+    }).catch((err) => {
+      if (err.response.data.error === 'BusinessNameTaken') {
+        throw new Error('BusinessNameTaken')
+      }
+      else if (err.response.data.error === 'BusinessHandleTaken') {
+        throw new Error('BusinessHandleTaken')
+      }
+      else{
+        throw new Error('Sorry, an unexpected error occurred. Please try again later.')
+      }
+    });
   }
 }

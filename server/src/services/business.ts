@@ -9,7 +9,7 @@ export async function register(
   desciption: (string|undefined),
   logo: (File|undefined),
   userID: number,
-): Promise<string|null> {
-  await createBusiness(name, email, handle, website, desciption, logo, userID)
-  return handle
+): Promise<number|null> {
+
+  return await createBusiness(name, email, handle, website, desciption, logo, userID);
 }

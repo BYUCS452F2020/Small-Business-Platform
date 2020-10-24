@@ -3,7 +3,6 @@ import LabeledInput from './LabeledInput'
 import FileUpload from './FileUpload'
 import '../styles/business-registration.scss'
 import Backend from 'Backend'
-const classNames = require('classnames');
 
 interface Props {backend: Backend}
 
@@ -47,19 +46,18 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
       setHandleError('') // clear out error messages
       setNameError('')
 
-      let results = await backend.registerBusiness(business)
-      
+      await backend.registerBusiness(business)    
       // TODO: navigate to business page instead of alerting
-      alert(`Business registered!  ${results}`)
+      alert(`Business registered!`)
     } catch (err) {
-      if(err.response.data.error === 'BusinessNameTaken'){
+      if(err.message === 'BusinessNameTaken'){
         setNameError('This name is already taken')
       }
-      else if(err.response.data.error === 'BusinessHandleTaken'){
+      else if(err.message === 'BusinessHandleTaken'){
         setHandleError('This handle is already taken')
       }
       else{
-        alert('Sorry, an unexpected error occurred. Please try again later.')
+        alert(err.message)
       }
     }
   }
@@ -80,7 +78,7 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
               onChange: e => setName(e.target.value),
             }}
           />
-          <span className={classNames('error', {'hidden': nameError === ''})}>{nameError}</span>
+          {nameError && <span className='error'>{nameError}</span>}
         </div>
         <div className='inputs-with-error-messages'>
           <LabeledInput
@@ -96,7 +94,7 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
               onChange: e => setHandle(e.target.value),
             }}
           />
-          <span className={classNames('error', {'hidden': handleError === ''})}>{handleError}</span>
+          {handleError  && <span className='error'>{handleError}</span>}
         </div>
 
         <LabeledInput
