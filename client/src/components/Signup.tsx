@@ -2,11 +2,9 @@ import React, { FormEvent, useEffect, useState }from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
 import '../styles/Signup.scss'
-import Backend from '../Backend'
+import {signup} from '../Backend'
 
-interface Props {backend: Backend}
-
-const Signup: React.FC<Props> = ({backend}: Props) => {
+const Signup: React.FC = () => {
   const history = useHistory()
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
@@ -29,7 +27,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
     e.preventDefault()
 
     try {
-      await backend.signup({firstName, lastName, username, email}, password)
+      await signup({firstName, lastName, username, email}, password)
       history.push('/business/register')
     } catch (err) {
       if (err.message === 'UsernameTaken') {
@@ -42,7 +40,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>Sign up </h1>
         <LabeledInput
           description=""
@@ -145,7 +143,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           type="submit"
           disabled={!firstName || !lastName || !username || !email ||
             !password || !confirmedPassword || !!confirmedPasswordErr}
-          onClick={handleSubmit}>
+        >
           Next
         </button>
       </form>

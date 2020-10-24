@@ -1,11 +1,10 @@
 import React, {useState} from 'react'
 import FileUpload from './FileUpload'
 import '../styles/upload-portfolio-item.scss'
-import Backend from 'Backend'
+import {addPortfolio} from '../Backend'
 
-interface Props {backend: Backend}
 
-const UploadPortfolioItem: React.FC<Props> = ({backend}: Props) => {
+const UploadPortfolioItem: React.FC = () => {
   const [description, setDescription] = useState<string>('')
   const [previewFile, setPreviewFile] = useState<string|null>('')
 
@@ -16,7 +15,7 @@ const UploadPortfolioItem: React.FC<Props> = ({backend}: Props) => {
     }
   
     try{
-      await backend.addPortfolio(portfolioItem)
+      await addPortfolio(portfolioItem)
       console.log('Portfolio submitted')
     } catch(err) {
       alert(err.message)
@@ -54,9 +53,6 @@ const UploadPortfolioItem: React.FC<Props> = ({backend}: Props) => {
               <img src={previewFile} className='image-preview' alt="Portfolio image"/>
           }
         <FileUpload
-            htmlAttrs={{
-              className: 'portolio-file-upload'
-            }}
             label="Portfolio image"
             accept={['.jpg', '.png']}
             onChange={(file) => setFile(file)}/>

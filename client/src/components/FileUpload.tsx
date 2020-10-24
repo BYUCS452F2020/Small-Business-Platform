@@ -5,7 +5,6 @@ interface Props {
   label: string
   accept: FileExtension[]
   onChange: (file: File|null) => void
-  htmlAttrs: React.InputHTMLAttributes<HTMLInputElement>
 }
 
 type FileExtension = '.jpg' | '.png'
@@ -22,7 +21,6 @@ const FileUpload: React.FC<Props> = (props: Props) => {
         onChange: e => {
           props.onChange(e.target.files && e.target.files[0])
         },
-        ...props.htmlAttrs
       }}
     />
   )
