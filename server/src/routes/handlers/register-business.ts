@@ -40,10 +40,10 @@ const handler: express.RequestHandler = async (req, res) => {
       body.name,
       body.email,
       body.handle,
+      123, // TODO: replace 123 with req.auth.userId,
       body.website,
       body.description,
       body.logo,
-      123, // TODO: replace 123 with req.auth.userId,
     )
     res.status(201).send()
   } catch (err) {

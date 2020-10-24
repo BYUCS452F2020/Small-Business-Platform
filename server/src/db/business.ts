@@ -22,10 +22,10 @@ export async function create(
   name: string,
   email: string,
   handle: string,
-  website: (string | undefined),
-  desciption: (string | undefined),
-  logo: (string | undefined),
   userID: number,
+  website?: string,
+  desciption?: string,
+  logo?: string,
 ): Promise<void> {
   try {
     await pool.query(

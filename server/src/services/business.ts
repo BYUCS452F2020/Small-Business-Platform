@@ -4,11 +4,11 @@ export async function register(
   name: string,
   email: string,
   handle: string,
-  website: (string|undefined),
-  desciption: (string|undefined),
-  logo: (string|undefined),
   userID: number,
+  website?: string,
+  desciption?: string,
+  logo?: string,
 ): Promise<void> {
 
-  await createBusiness(name, email, handle, website, desciption, logo, userID)
+  await createBusiness(name, email, handle, userID, website, desciption, logo)
 }

@@ -18,9 +18,9 @@ describe('Business DB', () => {
 
     it('inserts a new business and throw no errors', async () => {
       await create(
-        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 'www.linkedin.com/n8',
+        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 123, 'www.linkedin.com/n8',
         'This is a business to help all other businesses make money by paying us',
-        undefined, 123,
+        undefined,
       )
       expect(pg.Pool.prototype.query).toBeCalledWith(
         expect.stringMatching(/^INSERT INTO "business"/),
@@ -31,9 +31,9 @@ describe('Business DB', () => {
     it('throws FailedCreateBusiness if an error occurs', async () => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue({code: 'thisCodeWillFail'})
       await expect(create(
-        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 'www.linkedin.com/n8',
+        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 123, 'www.linkedin.com/n8',
         'This is a business to help all other businesses make money by paying us',
-        undefined, 123,
+        undefined,
       ))
         .rejects
         .toThrow('FailedCreateBusiness')
@@ -42,9 +42,9 @@ describe('Business DB', () => {
     it('throws BusinessNameTaken if err.constraint === businessNameTaken', async() => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue({constraint: 'business_name_key'})
       await expect(create(
-        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 'www.linkedin.com/n8',
+        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 123, 'www.linkedin.com/n8',
         'This is a business to help all other businesses make money by paying us',
-        undefined, 123,
+        undefined, 
       ))
         .rejects
         .toThrow('BusinessNameTaken')
@@ -53,9 +53,9 @@ describe('Business DB', () => {
     it('throws BusinessHandleTaken if err.constraint === business_handle_key', async() => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue({constraint: 'business_handle_key'})
       await expect(create(
-        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 'www.linkedin.com/n8',
+        'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 123, 'www.linkedin.com/n8',
         'This is a business to help all other businesses make money by paying us',
-        undefined, 123,
+        undefined,
       ))
         .rejects
         .toThrow('BusinessHandleTaken')
