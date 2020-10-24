@@ -1,12 +1,12 @@
-import React, { FormEvent, useState }from 'react'
+import React, { FormEvent, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
 import '../styles/Signup.css'
 import Backend from 'Backend'
 
-interface Props {backend: Backend}
+interface Props { backend: Backend }
 
-const Signup: React.FC<Props> = ({backend}: Props) => {
+const Signup: React.FC<Props> = ({ backend }: Props) => {
   const history = useHistory()
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
@@ -39,7 +39,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'text',
             value: firstName,
-            maxLength : 20,
+            maxLength: 20,
             onChange: e => setFirstName(e.target.value),
           }}
         />
@@ -54,7 +54,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'text',
             value: lastName,
-            maxLength : 20,
+            maxLength: 20,
             onChange: e => setLastName(e.target.value),
           }}
         />
@@ -69,7 +69,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'text',
             value: username,
-            maxLength : 20,
+            maxLength: 20,
             onChange: e => setUsername(e.target.value),
           }}
         />
@@ -83,8 +83,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'email',
             value: email,
-            minLength : 5,
-            maxLength : 32,
+            minLength: 5,
+            maxLength: 32,
             onChange: e => setEmail(e.target.value),
           }}
         />
@@ -97,8 +97,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'Password',
             value: password,
-            minLength : 8,
-            maxLength : 64,
+            minLength: 8,
+            maxLength: 64,
             onChange: e => setPassword(e.target.value),
           }}
         />
@@ -125,7 +125,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           className="btn-plain"
           type="submit"
           disabled={!firstName || !lastName ||
-                    !username || !email || !password || !confirmedPassword}
+            !username || !email || !password || !confirmedPassword}
           onClick={handleSubmit}>
           Next
         </button>
