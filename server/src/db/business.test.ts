@@ -44,7 +44,7 @@ describe('Business DB', () => {
       await expect(create(
         'Nate Hood LLC', 'nate@hood.com', '@n8thegr8', 123, 'www.linkedin.com/n8',
         'This is a business to help all other businesses make money by paying us',
-        undefined, 
+        undefined,
       ))
         .rejects
         .toThrow('BusinessNameTaken')

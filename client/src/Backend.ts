@@ -25,7 +25,7 @@ export default class Backend {
         },
       })
     }
-      catch (err) {
+    catch (err) {
       if (err.response.data.error === 'BusinessNameTaken') {
         throw new Error('BusinessNameTaken')
       }

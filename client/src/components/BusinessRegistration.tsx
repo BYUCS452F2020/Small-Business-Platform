@@ -75,7 +75,7 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
               onChange: (e) => {
                 setName(e.target.value)
                 setNameError('')
-              },  
+              },
             }}
           />
           {nameError && <span className='error'>{nameError}</span>}

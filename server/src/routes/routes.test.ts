@@ -36,7 +36,7 @@ describe('Routes', () => {
       {
         method: 'post',
         path: '/business/register',
-      }
+      },
     ]
 
     for (const {method, path} of routes) {
