@@ -2,11 +2,9 @@ import React, {useState} from 'react'
 import LabeledInput from './LabeledInput'
 import FileUpload from './FileUpload'
 import '../styles/business-registration.scss'
-import Backend from 'Backend'
+import {registerBusiness} from '../Backend'
 
-interface Props {backend: Backend}
-
-const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
+const BusinessRegistration: React.FC = () => {
   const [name, setName] = useState<string>('')
   const [handle, setHandle] = useState<string>('')
   const [email, setEmail] = useState<string>('')
@@ -43,7 +41,7 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
     }
 
     try {
-      await backend.registerBusiness(business)
+      await registerBusiness(business)
       // TODO: navigate to business page instead of alerting
       alert('Business registered!')
     } catch (err) {

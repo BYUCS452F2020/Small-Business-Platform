@@ -2,85 +2,93 @@ import Business from './types/business'
 import User from './types/user'
 import axios from 'axios'
 
-export default class Backend {
-  baseUrl: string
-  authToken?: string
+const baseUrl = 'http://localhost:8000'
 
-  constructor(baseUrl: string) {
-    this.baseUrl = baseUrl
+function getAuthToken(): string|undefined {
+  return localStorage.authToken
+}
+
+function setAuthToken(token: string|undefined): void {
+  if (token === undefined) {
+    delete localStorage.authToken
+  } else {
+    localStorage.authToken = token
   }
+}
 
-  async signup(user: User, password: string): Promise<void> {
-    const url = `${this.baseUrl}/user/register`
+export function hasAuthToken(): boolean {
+  return !!localStorage.authToken
+}
 
-    try {
-      const response = await axios.post(url, {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        email: user.email,
-        password: password,
-      })
+export async function signup(user: User, password: string): Promise<void> {
+  const url = `${baseUrl}/user/register`
 
-      this.authToken = response.data.authToken
-    } catch (err) {
-      if (err.response && err.response.status === 409) {
-        throw new Error('UsernameTaken')
-      }
+  try {
+    const response = await axios.post(url, {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.username,
+      email: user.email,
+      password: password,
+    })
 
-      console.error('unexpected error registering user', err)
-      throw new Error('SignupFailed')
+    setAuthToken(response.data.authToken)
+  } catch (err) {
+    if (err.response && err.response.status === 409) {
+      throw new Error('UsernameTaken')
     }
+
+    console.error('unexpected error registering user', err)
+    throw new Error('SignupFailed')
   }
+}
 
-  async login(username: string, password: string): Promise<void> {
-    const url = `${this.baseUrl}/user/login`
+export async function login(username: string, password: string): Promise<void> {
+  const url = `${baseUrl}/user/login`
 
-    try {
-      const response = await axios.post(url, {username, password})
-
-      this.authToken = response.data.authToken
-    } catch (err) {
-      if (err.response) {
-        switch (err.response.status) {
-        case 404:
-          throw new Error('UserNotFound')
-        case 401:
-          throw new Error('IncorrectPassword')
-        }
+  try {
+    const response = await axios.post(url, {username, password})
+    setAuthToken(response.data.authToken)
+  } catch (err) {
+    if (err.response) {
+      switch (err.response.status) {
+      case 404:
+        throw new Error('UserNotFound')
+      case 401:
+        throw new Error('IncorrectPassword')
       }
-
-      console.error('unexpected error logging user in', err)
-      throw new Error('LoginFailed')
     }
+
+    console.error('unexpected error logging user in', err)
+    throw new Error('LoginFailed')
   }
+}
 
-  async registerBusiness(business: Business): Promise<void> {
-    const url = `${this.baseUrl}/business/register`
-    try {
-      await axios.post(url, {
-        name: business.name,
-        handle: business.handle,
-        email: business.email,
-        website: business.website,
-        description: business.description,
-        logo: business.logo,
-      }, {
-        headers: {
-          Authorization: `Bearer ${this.authToken}`,
-        },
-      })
+export async function registerBusiness(business: Business): Promise<void> {
+  const url = `${baseUrl}/business/register`
+  try {
+    await axios.post(url, {
+      name: business.name,
+      handle: business.handle,
+      email: business.email,
+      website: business.website,
+      description: business.description,
+      logo: business.logo,
+    }, {
+      headers: {
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+    })
+  }
+  catch (err) {
+    if (err.response.data.error === 'BusinessNameTaken') {
+      throw new Error('BusinessNameTaken')
     }
-    catch (err) {
-      if (err.response.data.error === 'BusinessNameTaken') {
-        throw new Error('BusinessNameTaken')
-      }
-      else if (err.response.data.error === 'BusinessHandleTaken') {
-        throw new Error('BusinessHandleTaken')
-      }
-      else {
-        throw new Error('Sorry, an unexpected error occurred. Please try again later.')
-      }
+    else if (err.response.data.error === 'BusinessHandleTaken') {
+      throw new Error('BusinessHandleTaken')
+    }
+    else {
+      throw new Error('Sorry, an unexpected error occurred. Please try again later.')
     }
   }
 }

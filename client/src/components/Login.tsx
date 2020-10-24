@@ -1,23 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
 import '../styles/Login.scss'
-import Backend from '../Backend'
+import {login, hasAuthToken} from '../Backend'
 
-interface Props {backend: Backend}
-
-const Login: React.FC<Props> = ({backend}: Props) => {
+const Login: React.FC = () => {
   const history = useHistory()
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [usernameErr, setUsernameErr] = useState<string>('')
   const [passwordErr, setPasswordErr] = useState<string>('')
 
+  useEffect(() => {
+    if (hasAuthToken()) {
+      history.replace('/')
+    }
+  }, [])
+
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
 
     try {
-      await backend.login(username, password)
+      await login(username, password)
       history.push('/home')
     } catch (err) {
       switch(err.message) {
