@@ -56,6 +56,12 @@ If you want to interact with the database you can run the following command.
 $ docker-compose exec db psql --help
 ```
 
+If you need to restart the DB, you can run the following
+
+```bash
+$ docker volume ls
+$ docker volume rm <db name from docker volume ls command>
+```
 ## Best Practices
 
 - Don't push directly to `master`. Create a branch, push it, and then open a pull request for a team member to review.
