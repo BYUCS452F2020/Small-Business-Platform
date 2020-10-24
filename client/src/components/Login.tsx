@@ -35,13 +35,6 @@ const Login: React.FC = () => {
         alert('Sorry, an unexpected error occurred. Please try again later.')
       }
     }
-<<<<<<< HEAD
-=======
-
-    console.log('Logging in user', user)
-    history.push('/home/user')
-    // TODO : Implement login with backend
->>>>>>> 089c2f1... Portfolio page ready for review
   }
 
   return (
