@@ -1,5 +1,12 @@
 import React from 'react'
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom'
+import PrivateRoute from './PrivateRoute'
 import Login from './Login'
 import '../styles/index.scss'
 import Backend from '../Backend'
@@ -11,16 +18,17 @@ const backend = new Backend('http://localhost:8000')
 const AppRoutes = () => {
   return (
     <Switch>
+      <Redirect exact from="/" to="/home" />
       <Route exact path='/signup'>
         <Signup backend={backend} />
       </Route>
-      <Route exact path='/'>
+      <Route exact path='/login'>
         <Login backend={backend}/>
       </Route>
-      <Route exact path='/business/register'>
+      <PrivateRoute exact path='/business/register'>
         <BusinessRegistration backend={backend}/>
-      </Route>
-      <Route exact path='/home'>
+      </PrivateRoute>
+      <PrivateRoute exact path='/home'>
         <Link to='/home/user'>
           user portfolio
         </Link>
@@ -28,7 +36,7 @@ const AppRoutes = () => {
         <Link to='/business/register'>
           register business
         </Link>
-      </Route>
+      </PrivateRoute>
       <Route path='*'>
         404 Not Found
       </Route>

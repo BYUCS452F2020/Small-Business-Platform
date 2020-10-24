@@ -3,11 +3,22 @@ import User from './types/user'
 import axios from 'axios'
 
 export default class Backend {
-  baseUrl: string
-  authToken?: string
+  private baseUrl: string
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl
+  }
+
+  private get authToken(): string|undefined {
+    return localStorage.authToken
+  }
+
+  private set authToken(token: string|undefined) {
+    localStorage.authToken = token
+  }
+
+  static hasAuthToken(): boolean {
+    return !!localStorage.authToken
   }
 
   async signup(user: User, password: string): Promise<void> {
