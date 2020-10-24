@@ -35,7 +35,7 @@ const Login: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <form>
+      <form onSubmit={handleSubmit} >
         <h1>SPACKLE</h1>
         <LabeledInput
           description=""
@@ -83,7 +83,6 @@ const Login: React.FC<Props> = ({backend}: Props) => {
         <button
           className="btn-plain"
           type="submit"
-          onClick={handleSubmit}
           disabled={!username || !password}>
           Login
         </button>

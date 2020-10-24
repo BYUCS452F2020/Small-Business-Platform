@@ -42,7 +42,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
 
   return (
     <div className="center">
-      <form>
+      <form onSubmit={handleSubmit}>
         <h1>Sign up </h1>
         <LabeledInput
           description=""
@@ -145,7 +145,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           type="submit"
           disabled={!firstName || !lastName || !username || !email ||
             !password || !confirmedPassword || !!confirmedPasswordErr}
-          onClick={handleSubmit}>
+        >
           Next
         </button>
       </form>
