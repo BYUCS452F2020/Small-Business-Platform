@@ -15,7 +15,7 @@ import {set as setRoutes} from './routes/routes'
   const port = process.env.PORT || 8080
 
   // parse json request bodies
-  app.use(express.json())
+  app.use(express.json({limit: '10mb'}))
 
   setRoutes(app)
 

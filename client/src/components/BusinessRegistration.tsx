@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import LabeledInput from './LabeledInput'
 import FileUpload from './FileUpload'
-import '../styles/business-registration.css'
+import '../styles/business-registration.scss'
 import Backend from 'Backend'
 
 interface Props {backend: Backend}
@@ -13,6 +13,8 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
   const [website, setWebsite] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [logo, setLogo] = useState<File|null>(null)
+  const [handleError, setHandleError] = useState<string>('')
+  const [nameError, setNameError] = useState<string>('')
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
@@ -40,16 +42,20 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
       logo: await logoBase64 || undefined,
     }
 
-    console.log('registering business', business)
-
     try {
       await backend.registerBusiness(business)
-
       // TODO: navigate to business page instead of alerting
       alert('Business registered!')
     } catch (err) {
-      console.error('registering business failed', err)
-      alert('Sorry, an unexpected error occurred. Please try again later.')
+      if(err.message === 'BusinessNameTaken'){
+        setNameError('This name is already taken')
+      }
+      else if(err.message === 'BusinessHandleTaken'){
+        setHandleError('This handle is already taken')
+      }
+      else{
+        alert(err.message)
+      }
     }
   }
 
@@ -57,31 +63,42 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
     <section className='bus-reg'>
       <h2>Add Your Business</h2>
       <form onSubmit={handleSubmit}>
-        <LabeledInput
-          inputType="input"
-          label="Name"
-          htmlAttrs={{
-            placeholder: 'Awesome Company',
-            required: true,
-            type: 'text',
-            value: name,
-            onChange: e => setName(e.target.value),
-          }}
-        />
-
-        <LabeledInput
-          description="letters, numbers, periods, dashes, and underscores only"
-          inputType="input"
-          label="Handle"
-          htmlAttrs={{
-            pattern: '^[-_.a-zA-Z0-9]+$',
-            placeholder: 'awesomeco',
-            required: true,
-            type: 'text',
-            value: handle,
-            onChange: e => setHandle(e.target.value),
-          }}
-        />
+        <div className='inputs-with-error-messages'>
+          <LabeledInput
+            inputType="input"
+            label="Name"
+            htmlAttrs={{
+              placeholder: 'Awesome Company',
+              required: true,
+              type: 'text',
+              value: name,
+              onChange: (e) => {
+                setName(e.target.value)
+                setNameError('')
+              },
+            }}
+          />
+          {nameError && <span className='error'>{nameError}</span>}
+        </div>
+        <div className='inputs-with-error-messages'>
+          <LabeledInput
+            description="letters, numbers, periods, dashes, and underscores only"
+            inputType="input"
+            label="Handle"
+            htmlAttrs={{
+              pattern: '^[-_.a-zA-Z0-9]+$',
+              placeholder: 'awesomeco',
+              required: true,
+              type: 'text',
+              value: handle,
+              onChange: (e) =>{
+                setHandle(e.target.value)
+                setHandleError('')
+              },
+            }}
+          />
+          {handleError  && <span className='error'>{handleError}</span>}
+        </div>
 
         <LabeledInput
           inputType="input"

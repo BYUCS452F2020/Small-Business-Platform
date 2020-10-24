@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom'
 import Login from './Login'
-import '../styles/index.css'
+import '../styles/index.scss'
 import Backend from '../Backend'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './SignUp'
@@ -23,6 +23,10 @@ const AppRoutes = () => {
       <Route path='/home'>
         <Link to='/home/user'>
           user portfolio
+        </Link>
+        <br/>
+        <Link to='/business/register'>
+          register business
         </Link>
       </Route>
     </Switch>

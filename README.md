@@ -50,6 +50,18 @@ $ docker-compose run server node --version
 $ docker-compose run server yarn --version
 ```
 
+If you want to interact with the database you can run the following command.
+
+```bash
+$ docker-compose exec db psql --help
+```
+
+If you need to blow away the entire DB, you can run the following command. When you re-run `docker-compose up`, the DB will be re-created.
+
+```bash
+$ docker volume ls
+$ docker volume rm <db name from docker volume ls command>
+```
 ## Best Practices
 
 - Don't push directly to `master`. Create a branch, push it, and then open a pull request for a team member to review.

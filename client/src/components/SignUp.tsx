@@ -1,7 +1,7 @@
 import React, { FormEvent, useState }from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
-import '../styles/Signup.css'
+import '../styles/Signup.scss'
 import Backend from 'Backend'
 
 interface Props {backend: Backend}

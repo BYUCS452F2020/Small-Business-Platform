@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
-import '../styles/Login.css'
+import '../styles/Login.scss'
 import Backend from 'Backend'
 
 interface Props {backend: Backend}

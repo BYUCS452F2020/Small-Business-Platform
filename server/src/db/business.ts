@@ -1,0 +1,47 @@
+import pool from './pool'
+
+const businessNameTaken = 'business_name_key'
+const businessHandleTaken = 'business_handle_key'
+
+export async function createTable(): Promise<void> {
+  await pool.query(
+    `CREATE TABLE IF NOT EXISTS "business" (
+            businessID   SERIAL PRIMARY KEY,
+            userID       INTEGER NOT NULL, 
+            name         VARCHAR(20) NOT NULL UNIQUE,
+            handle       VARCHAR(20) NOT NULL UNIQUE,
+            email        VARCHAR(20) NOT NULL,
+            logo         BYTEA,
+            website      VARCHAR(32),
+            description  VARCHAR(100)
+        )`,
+  )
+}
+
+export async function create(
+  name: string,
+  email: string,
+  handle: string,
+  userID: number,
+  website?: string,
+  desciption?: string,
+  logo?: string,
+): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO "business" (name, email, handle, website, description, logo, userID)
+            VALUES($1, $2, $3, $4, $5, $6, $7)
+            RETURNING businessID`,
+      [name, email, handle, website, desciption, logo, userID],
+    )
+  } catch (err) {
+    if (err.constraint === businessNameTaken) {
+      throw new Error('BusinessNameTaken')
+    } else if (err.constraint === businessHandleTaken) {
+      throw new Error('BusinessHandleTaken')
+    } else {
+      console.log('err: ', err)
+      throw new Error('FailedCreateBusiness')
+    }
+  }
+}

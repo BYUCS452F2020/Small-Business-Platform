@@ -1,6 +1,6 @@
 import express from 'express'
 import * as zod from 'zod'
-import {register} from '../../services/user'
+import { register } from '../../services/user'
 
 const schema = zod.object({
   firstName: zod.string()
@@ -38,16 +38,15 @@ const handler: express.RequestHandler = async (req, res) => {
       body.email,
     )
 
-    res.status(201).json({authToken})
+    res.status(201).json({ authToken })
   } catch (err) {
     if (err.message === 'UsernameTaken') {
-      res.status(409).json({error: 'UsernameTaken'})
+      res.status(409).json({ error: 'UsernameTaken' })
     } else {
       console.error('Unexpected error registering user', err)
       res.status(500).send()
     }
   }
-
 }
 
 export default handler
