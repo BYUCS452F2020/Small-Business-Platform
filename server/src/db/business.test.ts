@@ -9,11 +9,11 @@ describe('Business DB', () => {
   describe('create', () => {
     beforeEach(() => {
       (pg.Pool as unknown as jest.Mock).mockRestore()
-        ; (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
-          rows: [
-            { id: 123 },
-          ],
-        })
+      ; (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
+        rows: [
+          { id: 123 },
+        ],
+      })
     })
 
     it('inserts a new business and throw no errors', async () => {
@@ -49,7 +49,7 @@ describe('Business DB', () => {
         .rejects
         .toThrow('BusinessNameTaken')
     })
-    
+
     it('throws BusinessHandleTaken if err.constraint === business_handle_key', async() => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue({constraint: 'business_handle_key'})
       await expect(create(

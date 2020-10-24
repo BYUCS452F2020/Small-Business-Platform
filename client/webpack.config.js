@@ -13,6 +13,10 @@ module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'bundle.js',
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
   },
 
   // adding .ts and .tsx to resolve.extensions will help babel look for .ts and .tsx files to transpile
@@ -22,15 +26,15 @@ module.exports = {
 
   module: {
     rules: [
-      
+
       // scss-loader to bundle all the scss files into one file and style-loader to add all the styles inside the style tag of the document
       {
         test: /\.scss$/,
         use: [
           require.resolve('style-loader'),
           require.resolve('css-loader'),
-          require.resolve('sass-loader')
-        ]
+          require.resolve('sass-loader'),
+        ],
       },
 
       // we use babel-loader to load our jsx and tsx files
@@ -42,6 +46,12 @@ module.exports = {
           options: {
             plugins: ['@babel/plugin-transform-runtime'],
           },
+        },
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
         },
       },
     ],

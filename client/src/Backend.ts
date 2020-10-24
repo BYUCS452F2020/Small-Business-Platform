@@ -33,6 +33,6 @@ export default class Backend {
       else{
         throw new Error('Sorry, an unexpected error occurred. Please try again later.')
       }
-    });
+    })
   }
 }

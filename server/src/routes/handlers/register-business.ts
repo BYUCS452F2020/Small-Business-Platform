@@ -21,14 +21,14 @@ const schema = zod.object({
   logo: zod.any()
     .optional(),
 
-  website: zod.string()   
+  website: zod.string()
     .url()
     .optional(),
 
   description: zod.string()
     .min(1)
     .max(100)
-    .optional()
+    .optional(),
 })
 
 const handler: express.RequestHandler = async (req, res) => {
@@ -43,7 +43,7 @@ const handler: express.RequestHandler = async (req, res) => {
       body.website,
       body.description,
       body.logo,
-      123 // TODO: replace 123 with req.auth.userId,
+      123, // TODO: replace 123 with req.auth.userId,
     )
     res.status(201).json({response})
   } catch (err) {

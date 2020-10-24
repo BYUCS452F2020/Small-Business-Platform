@@ -10,5 +10,5 @@ export async function register(
   userID: number,
 ): Promise<number|null> {
 
-  return await createBusiness(name, email, handle, website, desciption, logo, userID);
+  return await createBusiness(name, email, handle, website, desciption, logo, userID)
 }

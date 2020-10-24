@@ -1,6 +1,6 @@
 import pool from './pool'
 
-const businessNameTaken = 'business_name_key';
+const businessNameTaken = 'business_name_key'
 const businessHandleTaken = 'business_handle_key'
 
 export async function createTable(): Promise<void> {

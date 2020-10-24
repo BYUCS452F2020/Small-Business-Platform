@@ -46,9 +46,9 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
       setHandleError('') // clear out error messages
       setNameError('')
 
-      await backend.registerBusiness(business)    
+      await backend.registerBusiness(business)
       // TODO: navigate to business page instead of alerting
-      alert(`Business registered!`)
+      alert('Business registered!')
     } catch (err) {
       if(err.message === 'BusinessNameTaken'){
         setNameError('This name is already taken')
