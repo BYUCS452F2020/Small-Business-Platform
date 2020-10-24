@@ -86,6 +86,19 @@ export default class Backend {
   }
 
   async addPortfolio(portfolioItem: PortfolioItem): Promise<void> {
-    console.log('this is what we\'re uploading: ', portfolioItem)
+    const url = `${this.baseUrl}/business/portfolio`
+    try {
+      await axios.post(url, {
+        description: portfolioItem.description,
+        file: portfolioItem.file
+      }, {
+        headers: {
+          Authorization: `Bearer ${this.authToken}`,
+        },
+      })
+    }
+    catch(err){
+      throw new Error('Sorry, an unexpected error occurred. Please try again later.')
+    }
   }
 }
