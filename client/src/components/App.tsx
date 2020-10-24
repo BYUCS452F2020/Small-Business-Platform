@@ -3,7 +3,6 @@ import {
   BrowserRouter,
   Switch,
   Route,
-  Link,
   Redirect,
 } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
@@ -11,7 +10,7 @@ import Login from './Login'
 import '../styles/index.scss'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './Signup'
-import UserPortfolio from './UserPortfolio'
+import UserPortfolio from './BusinessPortfolio'
 
 const AppRoutes = () => {
   return (
