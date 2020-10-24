@@ -21,25 +21,19 @@ const schema = zod.object({
   logo: zod.any()
     .optional(),
 
-  website: zod.string()
+  website: zod.string()   
     .url()
     .optional(),
 
-  desciption: zod.string()
+  description: zod.string()
     .min(1)
     .max(100)
-    .optional(),
-
+    .optional()
 })
 
 const handler: express.RequestHandler = async (req, res) => {
-  console.log('we are about to register the business!')
-  console.log('req.body: ' ,req.body)
-  const body = req.body
-  // const body = schema.parse(req.body)
-  console.log('body: ', body)
-  assertAuthenticated(req)
-  console.log('authenticated as', req.auth.userId)
+  const body = schema.parse(req.body)
+  // assertAuthenticated(req)
 
   try {
     const response = await register(
@@ -47,9 +41,10 @@ const handler: express.RequestHandler = async (req, res) => {
       body.email,
       body.handle,
       body.website,
-      body.desciption,
+      body.description,
       body.logo,
-      req.auth.userId,
+      // req.auth.userId,
+      123
     )
     res.status(201).json({response})
   } catch (err) {

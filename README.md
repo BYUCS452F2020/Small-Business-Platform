@@ -50,6 +50,12 @@ $ docker-compose run server node --version
 $ docker-compose run server yarn --version
 ```
 
+If you want to interact with the database you can run the following command.
+
+```bash
+$ docker-compose exec db psql --help
+```
+
 ## Best Practices
 
 - Don't push directly to `master`. Create a branch, push it, and then open a pull request for a team member to review.

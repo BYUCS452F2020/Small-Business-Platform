@@ -10,10 +10,6 @@ export async function register(
   logo: (File|undefined),
   userID: number,
 ): Promise<string|null> {
-  console.log(
-    'name: ', name, 'email: ', email, 'handle: ', handle, 'website: ', 
-    website, 'desciption: ', desciption, 'logo: ', logo, 'userID: ', userID);
-    console.log('creating a business!')
   await createBusiness(name, email, handle, website, desciption, logo, userID)
   return handle
 }

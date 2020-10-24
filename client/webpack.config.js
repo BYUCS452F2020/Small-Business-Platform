@@ -22,6 +22,16 @@ module.exports = {
 
   module: {
     rules: [
+      
+      // scss-loader to bundle all the scss files into one file and style-loader to add all the styles inside the style tag of the document
+      {
+        test: /\.scss$/,
+        use: [
+          require.resolve('style-loader'),
+          require.resolve('css-loader'),
+          require.resolve('sass-loader')
+        ]
+      },
 
       // we use babel-loader to load our jsx and tsx files
       {
@@ -33,12 +43,6 @@ module.exports = {
             plugins: ['@babel/plugin-transform-runtime'],
           },
         },
-      },
-
-      // css-loader to bundle all the css files into one file and style-loader to add all the styles  inside the style tag of the document
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
       },
     ],
   },

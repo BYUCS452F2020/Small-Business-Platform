@@ -1,12 +1,15 @@
 import pool from './pool'
 
+const businessNameTaken = 'business_name_key';
+const businessHandleTaken = 'business_handle_key'
+
 export async function createTable(): Promise<void>{
   await pool.query(
     `CREATE TABLE IF NOT EXISTS "business" (
             businessID   SERIAL PRIMARY KEY,
             userID       INTEGER NOT NULL, 
             name         VARCHAR(20) NOT NULL UNIQUE,
-            hadle        VARCHAR(20) NOT NULL UNIQUE,
+            handle       VARCHAR(20) NOT NULL UNIQUE,
             email        VARCHAR(20) NOT NULL,
             logo         BYTEA,
             website      VARCHAR(32),
@@ -34,16 +37,12 @@ export async function create(
     return result.rows[0].businessID
 
   }catch(err){
-    console.log('db error: ', err)
-    // if( err.message == "this means that the business name already existed")
-    throw new Error('Business Name or Business Handle Taken Probably?')
-    // }
-
-    // if( err.message == "this means that the business handle is already existed")
-    // throw new Error('BusinessHandletaken')
-    // }
-
-    // console.error('Unexpected error creating business', err)
-    // throw new Error('FailedCreateBusiness')
+    if (err.constraint === businessNameTaken) {
+      throw new Error('BusinessNameTaken')
+    } else if (err.constraint === businessHandleTaken) {
+      throw new Error('BusinessHandleTaken')
+    } else {
+      throw new Error('FailedCreateBusiness')
+    }
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/labeled-input.css'
+import '../styles/labeled-input.scss'
 
 interface BaseProps {
   label: string
