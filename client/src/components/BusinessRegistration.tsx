@@ -63,42 +63,39 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
     <section className='bus-reg'>
       <h2>Add Your Business</h2>
       <form onSubmit={handleSubmit}>
-        <div className='inputs-with-error-messages'>
-          <LabeledInput
-            inputType="input"
-            label="Name"
-            htmlAttrs={{
-              placeholder: 'Awesome Company',
-              required: true,
-              type: 'text',
-              value: name,
-              onChange: (e) => {
-                setName(e.target.value)
-                setNameError('')
-              },
-            }}
-          />
-          {nameError && <span className='error'>{nameError}</span>}
-        </div>
-        <div className='inputs-with-error-messages'>
-          <LabeledInput
-            description="letters, numbers, periods, dashes, and underscores only"
-            inputType="input"
-            label="Handle"
-            htmlAttrs={{
-              pattern: '^[-_.a-zA-Z0-9]+$',
-              placeholder: 'awesomeco',
-              required: true,
-              type: 'text',
-              value: handle,
-              onChange: (e) =>{
-                setHandle(e.target.value)
-                setHandleError('')
-              },
-            }}
-          />
-          {handleError  && <span className='error'>{handleError}</span>}
-        </div>
+        <LabeledInput
+          error={nameError}
+          inputType="input"
+          label="Name"
+          htmlAttrs={{
+            placeholder: 'Awesome Company',
+            required: true,
+            type: 'text',
+            value: name,
+            onChange: (e) => {
+              setName(e.target.value)
+              setNameError('')
+            },
+          }}
+        />
+
+        <LabeledInput
+          description="letters, numbers, periods, dashes, and underscores only"
+          error={handleError}
+          inputType="input"
+          label="Handle"
+          htmlAttrs={{
+            pattern: '^[-_.a-zA-Z0-9]+$',
+            placeholder: 'awesomeco',
+            required: true,
+            type: 'text',
+            value: handle,
+            onChange: (e) =>{
+              setHandle(e.target.value)
+              setHandleError('')
+            },
+          }}
+        />
 
         <LabeledInput
           inputType="input"

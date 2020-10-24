@@ -1,4 +1,5 @@
 import Business from './types/business'
+import User from './types/user'
 import axios from 'axios'
 
 export default class Backend {
@@ -7,6 +8,51 @@ export default class Backend {
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl
+  }
+
+  async signup(user: User, password: string): Promise<void> {
+    const url = `${this.baseUrl}/user/register`
+
+    try {
+      const response = await axios.post(url, {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: user.username,
+        email: user.email,
+        password: password,
+      })
+
+      this.authToken = response.data.authToken
+    } catch (err) {
+      if (err.response && err.response.status === 409) {
+        throw new Error('UsernameTaken')
+      }
+
+      console.error('unexpected error registering user', err)
+      throw new Error('SignupFailed')
+    }
+  }
+
+  async login(username: string, password: string): Promise<void> {
+    const url = `${this.baseUrl}/user/login`
+
+    try {
+      const response = await axios.post(url, {username, password})
+
+      this.authToken = response.data.authToken
+    } catch (err) {
+      if (err.response) {
+        switch (err.response.status) {
+        case 404:
+          throw new Error('UserNotFound')
+        case 401:
+          throw new Error('IncorrectPassword')
+        }
+      }
+
+      console.error('unexpected error logging user in', err)
+      throw new Error('LoginFailed')
+    }
   }
 
   async registerBusiness(business: Business): Promise<void> {

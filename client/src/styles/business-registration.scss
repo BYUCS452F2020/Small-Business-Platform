@@ -1,18 +1,4 @@
 section.bus-reg {
     margin: auto;
     max-width: 600px;
-    div.inputs-with-error-messages{
-        display: flex;
-        flex-direction: column;
-        .labeled-input{
-            margin-bottom: .5rem;
-        }
-        span.error{
-            color: red;
-            margin-left: 2rem;
-        }
-        span.hidden{
-            display:none;
-        }
-    }
 }

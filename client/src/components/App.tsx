@@ -4,23 +4,23 @@ import Login from './Login'
 import '../styles/index.scss'
 import Backend from '../Backend'
 import BusinessRegistration from './BusinessRegistration'
-import Signup from './SignUp'
+import Signup from './Signup'
 
 const backend = new Backend('http://localhost:8000')
 
 const AppRoutes = () => {
   return (
     <Switch>
-      <Route  path='/signup'>
+      <Route exact path='/signup'>
         <Signup backend={backend} />
       </Route>
       <Route exact path='/'>
         <Login backend={backend}/>
       </Route>
-      <Route path='/business/register'>
+      <Route exact path='/business/register'>
         <BusinessRegistration backend={backend}/>
       </Route>
-      <Route path='/home'>
+      <Route exact path='/home'>
         <Link to='/home/user'>
           user portfolio
         </Link>
@@ -28,6 +28,9 @@ const AppRoutes = () => {
         <Link to='/business/register'>
           register business
         </Link>
+      </Route>
+      <Route path='*'>
+        404 Not Found
       </Route>
     </Switch>
   )

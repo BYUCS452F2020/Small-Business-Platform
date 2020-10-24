@@ -4,6 +4,7 @@ import '../styles/labeled-input.scss'
 interface BaseProps {
   label: string
   description?: string
+  error?: string
   inputType: 'input' | 'textarea'
 }
 
@@ -41,6 +42,7 @@ const LabeledInput: React.FC<Props> = (props: Props) => {
           <input id={id} {...props.htmlAttrs} /> :
           <textarea id={id} {...props.htmlAttrs} />
       }
+      {props.error && <span className="error">{props.error}</span>}
     </div>
   )
 }

@@ -1,8 +1,8 @@
-import React, { FormEvent, useState }from 'react'
+import React, { FormEvent, useEffect, useState }from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import LabeledInput from './LabeledInput'
 import '../styles/Signup.scss'
-import Backend from 'Backend'
+import Backend from '../Backend'
 
 interface Props {backend: Backend}
 
@@ -14,15 +14,30 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [confirmedPassword, setConfirmedPassword] = useState<string>('')
+  const [usernameErr, setUsernameErr] = useState<string>('')
+  const [confirmedPasswordErr, setConfirmedPasswordErr] = useState<string>('')
+
+  useEffect(() => {
+    if (confirmedPassword && password !== confirmedPassword) {
+      setConfirmedPasswordErr('This password doesn\'t match the one entered above')
+    } else {
+      setConfirmedPasswordErr('')
+    }
+  }, [password, confirmedPassword])
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    console.log('clicked')
-    history.push('/business/register')
 
-    // TODO: Verify that the passwords match
-    // TODO: Send info to the backend
-    // TODO: If everything checks out, history.push('/business/register')
+    try {
+      await backend.signup({firstName, lastName, username, email}, password)
+      history.push('/business/register')
+    } catch (err) {
+      if (err.message === 'UsernameTaken') {
+        setUsernameErr('This username has already been taken')
+      } else {
+        alert('Sorry, an unexpected error occurred. Please try again later.')
+      }
+    }
   }
 
   return (
@@ -34,7 +49,6 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           inputType="input"
           label="First Name"
           htmlAttrs={{
-            pattern: '^[A-Za-zÀ-ÖØ-öø-ÿ]+$',
             placeholder: 'Jane',
             required: true,
             type: 'text',
@@ -49,7 +63,6 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           inputType="input"
           label="Last Name"
           htmlAttrs={{
-            pattern: '^[A-Za-zÀ-ÖØ-öø-ÿ]+$',
             placeholder: 'Doe',
             required: true,
             type: 'text',
@@ -61,6 +74,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
 
         <LabeledInput
           description="letters, numbers, periods, dashes, and underscores only"
+          error={usernameErr}
           inputType="input"
           label="Username"
           htmlAttrs={{
@@ -70,7 +84,10 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             type: 'text',
             value: username,
             maxLength : 20,
-            onChange: e => setUsername(e.target.value),
+            onChange: e => {
+              setUsernameErr('')
+              setUsername(e.target.value)
+            },
           }}
         />
 
@@ -89,7 +106,6 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
           }}
         />
         <LabeledInput
-          description="must include at least one capital letter, number, and symbol"
           inputType="input"
           label="Password"
           htmlAttrs={{
@@ -105,6 +121,7 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
 
         <LabeledInput
           description=""
+          error={confirmedPasswordErr}
           inputType="input"
           label="Confirm password"
           htmlAttrs={{
@@ -112,6 +129,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
             required: true,
             type: 'password',
             value: confirmedPassword,
+            minLength: 8,
+            maxLength: 64,
             onChange: e => setConfirmedPassword(e.target.value),
           }}
         />
@@ -124,8 +143,8 @@ const Signup: React.FC<Props> = ({backend}: Props) => {
         <button
           className="btn-plain"
           type="submit"
-          disabled={!firstName || !lastName ||
-                    !username || !email || !password || !confirmedPassword}
+          disabled={!firstName || !lastName || !username || !email ||
+            !password || !confirmedPassword || !!confirmedPasswordErr}
           onClick={handleSubmit}>
           Next
         </button>
