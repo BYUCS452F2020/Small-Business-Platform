@@ -6,9 +6,9 @@ export async function register(
   handle: string,
   website: (string|undefined),
   desciption: (string|undefined),
-  logo: (File|undefined),
+  logo: (string|undefined),
   userID: number,
-): Promise<number|null> {
+): Promise<void> {
 
-  return await createBusiness(name, email, handle, website, desciption, logo, userID)
+  await createBusiness(name, email, handle, website, desciption, logo, userID)
 }

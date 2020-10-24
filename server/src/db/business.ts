@@ -24,18 +24,16 @@ export async function create(
   handle: string,
   website: (string | undefined),
   desciption: (string | undefined),
-  logo: (File | undefined),
+  logo: (string | undefined),
   userID: number,
-): Promise<number> {
+): Promise<void> {
   try {
-    const result = await pool.query(
+    await pool.query(
       `INSERT INTO "business" (name, email, handle, website, description, logo, userID)
             VALUES($1, $2, $3, $4, $5, $6, $7)
             RETURNING businessID`,
       [name, email, handle, website, desciption, logo, userID],
     )
-    return result.rows[0].businessID
-
   } catch (err) {
     if (err.constraint === businessNameTaken) {
       throw new Error('BusinessNameTaken')

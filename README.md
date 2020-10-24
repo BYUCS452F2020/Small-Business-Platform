@@ -56,7 +56,7 @@ If you want to interact with the database you can run the following command.
 $ docker-compose exec db psql --help
 ```
 
-If you need to restart the DB, you can run the following
+If you need to blow away the entire DB, you can run the following command. When you re-run `docker-compose up`, the DB will be re-created.
 
 ```bash
 $ docker volume ls

@@ -1,6 +1,6 @@
 import express from 'express'
 import * as zod from 'zod'
-import { register } from '../../services/business'
+import {register} from '../../services/business'
 import {assertAuthenticated} from '../middlewares/auth'
 
 const schema = zod.object({
@@ -14,11 +14,11 @@ const schema = zod.object({
     .max(32),
 
   handle: zod.string()
-    .regex(/^[a-zA-Z0-9_-]{1,15}$/)
+    .regex(/^[-_.a-zA-Z0-9]+$/)
     .min(1)
     .max(20),
 
-  logo: zod.any()
+  logo: zod.string()
     .optional(),
 
   website: zod.string()
@@ -36,7 +36,7 @@ const handler: express.RequestHandler = async (req, res) => {
   // TODO: assertAuthenticated(req) // Do this when user auth backend is working
 
   try {
-    const response = await register(
+    await register(
       body.name,
       body.email,
       body.handle,
@@ -45,7 +45,7 @@ const handler: express.RequestHandler = async (req, res) => {
       body.logo,
       123, // TODO: replace 123 with req.auth.userId,
     )
-    res.status(201).json({response})
+    res.status(201).send()
   } catch (err) {
     if (err.message === 'BusinessNameTaken') {
       res.status(409).json({ error: 'BusinessNameTaken' })

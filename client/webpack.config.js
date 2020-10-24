@@ -31,9 +31,9 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          require.resolve('style-loader'),
-          require.resolve('css-loader'),
-          require.resolve('sass-loader'),
+          'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
 

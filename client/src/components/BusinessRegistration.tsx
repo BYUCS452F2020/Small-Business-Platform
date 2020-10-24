@@ -43,9 +43,6 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
     }
 
     try {
-      setHandleError('') // clear out error messages
-      setNameError('')
-
       await backend.registerBusiness(business)
       // TODO: navigate to business page instead of alerting
       alert('Business registered!')
@@ -75,7 +72,10 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
               required: true,
               type: 'text',
               value: name,
-              onChange: e => setName(e.target.value),
+              onChange: (e) => {
+                setName(e.target.value)
+                setNameError('')
+              },  
             }}
           />
           {nameError && <span className='error'>{nameError}</span>}
@@ -91,7 +91,10 @@ const BusinessRegistration: React.FC<Props> = ({backend}: Props) => {
               required: true,
               type: 'text',
               value: handle,
-              onChange: e => setHandle(e.target.value),
+              onChange: (e) =>{
+                setHandle(e.target.value)
+                setHandleError('')
+              },
             }}
           />
           {handleError  && <span className='error'>{handleError}</span>}
