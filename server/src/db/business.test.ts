@@ -1,15 +1,18 @@
 import pg from 'pg'
-import { create } from './business'
+import { create, get } from './business'
 
 jest.mock('pg')
 
 describe('Business DB', () => {
+  beforeEach(() => {
+    (pg.Pool as unknown as jest.Mock).mockRestore()
+  })
+
   afterEach(jest.resetAllMocks)
 
   describe('create', () => {
     beforeEach(() => {
-      (pg.Pool as unknown as jest.Mock).mockRestore()
-      ; (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
+      (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
         rows: [
           { id: 123 },
         ],
@@ -59,6 +62,55 @@ describe('Business DB', () => {
       ))
         .rejects
         .toThrow('BusinessHandleTaken')
+    })
+  })
+
+  describe('get', () => {
+    beforeEach(() => {
+      (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
+        rows: [
+          {
+            name: 'My Biz',
+            handle: 'mybiz',
+            email: 'hi@my.biz',
+            userid: 123,
+            website: 'http://my.biz',
+            logo: Buffer.from('hey there', 'utf-8'),
+            description: 'My cool business',
+          },
+        ],
+      })
+    })
+
+    it('gets a business', async () => {
+      const business = await get('mybiz')
+
+      expect(business).toMatchObject({
+        name: 'My Biz',
+        handle: 'mybiz',
+        email: 'hi@my.biz',
+        userId: 123,
+        website: 'http://my.biz',
+        logo: 'hey there',
+        description: 'My cool business',
+      })
+
+      expect(pg.Pool.prototype.query).toBeCalledWith(
+        expect.stringMatching(/^SELECT.*FROM business.*WHERE handle = \$[0-9]/s),
+        expect.any(Array),
+      )
+    })
+
+    it('throws BusinessNotFound if business not found', async () => {
+      (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({rows: []})
+
+      await expect(get('myotherbiz')).rejects.toThrow('BusinessNotFound')
+    })
+
+    it('throws FailedGetBusiness on other errors', async () => {
+      (pg.Pool.prototype.query as jest.Mock).mockRejectedValue(new Error('ah'))
+
+      await expect(get('myotherbiz')).rejects.toThrow('FailedGetBusiness')
     })
   })
 })
