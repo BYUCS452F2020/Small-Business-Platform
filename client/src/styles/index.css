@@ -4,14 +4,23 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
+    background-color: #F8F8F8;
+    height: 100%;
+}
+
+#root {
+    height: 100%;
 }
 
 h1, h2 {
     font-weight: 500;
     text-align: center;
+    font-family: 'Montserrat', sans-serif;
 }
 
 button.btn-plain {
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
     background: #F8F8F8;
     border: none;
     border-radius: 1.5em;
@@ -27,4 +36,15 @@ button.btn-plain:hover {
     box-shadow: -1rem -1rem 1.5rem rgba(255, 255, 255, 0.5),
                 1rem 1rem 4rem rgba(0, 0, 0, 0.5);
     cursor: pointer;
+}
+
+button.btn-plain:active {
+    transform: scale(0.97);
+}
+
+.center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
