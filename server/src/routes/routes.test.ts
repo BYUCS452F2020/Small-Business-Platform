@@ -6,7 +6,7 @@ import registerBusiness from './handlers/register-business'
 import getBusiness from './handlers/get-business'
 import handleError from './handlers/error'
 import {set as setRoutes} from './routes'
-import authMiddleware from './middlewares/auth'
+import authMiddleware, {authMiddlewareOptional} from './middlewares/auth'
 
 jest.mock('./handlers/error', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,7 +32,13 @@ describe('Routes', () => {
       req.auth = {userId: 123}
       next()
     })
+
+    ;(authMiddlewareOptional as jest.Mock).mockImplementation((req, res, next) => {
+      next()
+    })
   })
+
+  afterEach(jest.restoreAllMocks)
 
   describe('async error handling', () => {
     const routes = [

@@ -53,6 +53,10 @@
         font-weight: bold;
     }
 
+    .business-name, .business-description, .business-website {
+        padding: 0.5rem 0;
+    }
+
     .featured-gallery-container {
         margin: auto;
         flex-grow: 1;

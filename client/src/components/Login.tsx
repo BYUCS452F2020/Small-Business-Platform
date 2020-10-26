@@ -22,7 +22,7 @@ const Login: React.FC = () => {
 
     try {
       await login(username, password)
-      history.push('/home')
+      history.push('/')
     } catch (err) {
       switch(err.message) {
       case 'UserNotFound':

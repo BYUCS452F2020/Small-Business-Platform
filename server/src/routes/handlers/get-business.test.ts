@@ -7,7 +7,7 @@ jest.mock('../../db/business')
 
 describe('Get Business Handler', () => {
   let app: express.Application
-  let authUserId = 456
+  let authUserId: number|null = null
 
   beforeEach(() => {
     (getBusiness as jest.Mock).mockResolvedValue({
@@ -22,8 +22,10 @@ describe('Get Business Handler', () => {
 
     app = express()
     app.get('/business/:handle', (req, res, next) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (req as any).auth = {userId: authUserId}
+      if (authUserId !== null) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (req as any).auth = {userId: authUserId}
+      }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return handler(req, res, next).catch((err: any) => {
@@ -32,6 +34,8 @@ describe('Get Business Handler', () => {
       })
     })
   })
+
+  afterEach(jest.restoreAllMocks)
 
   it('gets a business', async () => {
     await request(app)

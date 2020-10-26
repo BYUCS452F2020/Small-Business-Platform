@@ -1,5 +1,5 @@
 import express from 'express'
-import {assertAuthenticated} from '../middlewares/auth'
+import {isAuthenticated} from '../middlewares/auth'
 import {get as getBusiness} from '../../db/business'
 
 const handler: express.RequestHandler = async (req, res) => {
@@ -8,8 +8,6 @@ const handler: express.RequestHandler = async (req, res) => {
     res.status(400).send()
     return
   }
-
-  assertAuthenticated(req)
 
   try {
     const business = await getBusiness(handle)
@@ -20,7 +18,7 @@ const handler: express.RequestHandler = async (req, res) => {
       website: business.website,
       logo: business.logo,
       description: business.description,
-      editable: business.userId === req.auth.userId,
+      editable: !!isAuthenticated(req) && business.userId === req.auth.userId,
     })
   } catch (err) {
     switch(err.message) {
