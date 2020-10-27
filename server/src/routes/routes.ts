@@ -1,7 +1,7 @@
 import express from 'express'
 import registerUser from './handlers/register-user'
 import registerBusiness from './handlers/register-business'
-import addPortfolioItem from './handlers/portfolio'
+import createPortfolioItem from './handlers/create-portfolio-item'
 import loginUser from './handlers/login-user'
 import getBusiness from './handlers/get-business'
 import handleError from './handlers/error'
@@ -19,7 +19,7 @@ export function set(app: express.Application): void {
   app.post('/user/register', withErrHandling(registerUser))
   app.post('/user/login', withErrHandling(loginUser))
   app.post('/business/register', authMiddleware, withErrHandling(registerBusiness))
-  app.post('/business/:handle/portfolio', authMiddleware, withErrHandling(addPortfolioItem))
+  app.post('/business/:handle/portfolio', authMiddleware, withErrHandling(createPortfolioItem))
   app.get('/business/:handle', authMiddlewareOptional, withErrHandling(getBusiness))
 
   // error handling - must be last!

@@ -3,7 +3,7 @@ import express from 'express'
 import registerUser from './handlers/register-user'
 import loginUser from './handlers/login-user'
 import registerBusiness from './handlers/register-business'
-import addPortfolioItem from './handlers/portfolio'
+import createPortfolioItem from './handlers/create-portfolio-item'
 import getBusiness from './handlers/get-business'
 import handleError from './handlers/error'
 import { set as setRoutes } from './routes'
@@ -21,7 +21,7 @@ jest.mock('./handlers/register-user')
 jest.mock('./handlers/login-user')
 jest.mock('./handlers/register-business')
 jest.mock('./handlers/get-business')
-jest.mock('./handlers/portfolio')
+jest.mock('./handlers/create-portfolio-item')
 
 describe('Routes', () => {
   let app: express.Application
@@ -30,14 +30,14 @@ describe('Routes', () => {
     app = express()
     setRoutes(app)
 
-      ; (authMiddleware as jest.Mock).mockImplementation((req, res, next) => {
-        req.auth = { userId: 123 }
-        next()
-      })
+    ;(authMiddleware as jest.Mock).mockImplementation((req, res, next) => {
+      req.auth = { userId: 123 }
+      next()
+    })
 
-      ; (authMiddlewareOptional as jest.Mock).mockImplementation((req, res, next) => {
-        next()
-      })
+    ;(authMiddlewareOptional as jest.Mock).mockImplementation((req, res, next) => {
+      next()
+    })
   })
 
   afterEach(jest.restoreAllMocks)
@@ -67,7 +67,7 @@ describe('Routes', () => {
       {
         method: 'post',
         path: '/business/handle/portfolio',
-        handler: addPortfolioItem,
+        handler: createPortfolioItem,
       },
     ]
 

@@ -1,5 +1,5 @@
 import pg from 'pg'
-import { create, get } from './business'
+import { create, get, getId } from './business'
 
 jest.mock('pg')
 
@@ -111,6 +111,34 @@ describe('Business DB', () => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue(new Error('ah'))
 
       await expect(get('myotherbiz')).rejects.toThrow('FailedGetBusiness')
+    })
+  })
+
+  describe('getId', () => {
+    beforeEach(() => {
+      (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
+        rows: [{ businessid: 123 }],
+      })
+    })
+
+    it('gets a business id', async () => {
+      const id = await getId('handle')
+
+      expect(id).toBe(123)
+      expect(pg.Pool.prototype.query).toBeCalledWith(
+        expect.stringMatching(/^SELECT businessID.*FROM business/s),
+        expect.any(Array),
+      )
+    })
+
+    it('throws BusinessNotFound if business not found', async () => {
+      (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({rows: []})
+      await expect(getId('oops')).rejects.toThrow('BusinessNotFound')
+    })
+
+    it('throws FailedGetBusinessId on other errors', async () => {
+      (pg.Pool.prototype.query as jest.Mock).mockRejectedValue(new Error('ah'))
+      await expect(getId('oops')).rejects.toThrow('FailedGetBusinessId')
     })
   })
 })
