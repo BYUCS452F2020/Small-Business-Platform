@@ -37,13 +37,13 @@ button.btn-plain {
     width: calc(100% - 2rem);
 }
 
-button.btn-plain:hover {
+button.btn-plain:hover:enabled {
     box-shadow: -1rem -1rem 1.5rem rgba(255, 255, 255, 0.5),
                 1rem 1rem 4rem rgba(0, 0, 0, 0.5);
     cursor: pointer;
 }
 
-button.btn-plain:active {
+button.btn-plain:active:enabled {
     transform: scale(0.97);
 }
 

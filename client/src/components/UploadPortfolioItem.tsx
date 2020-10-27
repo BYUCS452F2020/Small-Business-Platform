@@ -4,9 +4,12 @@ import '../styles/upload-portfolio-item.scss'
 import { addPortfolioItem } from '../Backend'
 import LabeledInput from './LabeledInput'
 
-interface Props { handle: string }
+interface Props {
+  handle: string
+  onSuccess: () => void
+}
 
-const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
+const UploadPortfolioItem: React.FC<Props> = ({handle, onSuccess}: Props) => {
   const [description, setDescription] = useState<string>('')
   const [previewFileData, setPreviewFileData] = useState<string>('')
 
@@ -19,7 +22,7 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
 
     try {
       await addPortfolioItem(portfolioItem, handle)
-      console.log('Portfolio submitted')
+      onSuccess()
     } catch (err) {
       alert('Sorry, an unexpected error occurred. Please try again later.')
     }
