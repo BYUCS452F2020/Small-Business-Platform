@@ -16,20 +16,10 @@ describe('Portfolio DB', () => {
       })
     })
 
-    it('inserts a new portfolio and throw no errors', async () => {
-      await insert(
-        'description-string,', 'file-string', 123
-      )
-      expect(pg.Pool.prototype.query).toBeCalledWith(
-        expect.stringMatching(/^INSERT INTO portfolio/),
-        expect.any(Array),
-      )
-    })
-
     it('throws FailedCreatePortfolio if an error occurs', async () => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue({code: 'thisCodeWillFail'})
       await expect(insert(
-        'description-string,', 'file-string', 123
+        'description-string,', 'file-string', 'handle'
       ))
         .rejects
         .toThrow('FailedCreatePortfolio')
