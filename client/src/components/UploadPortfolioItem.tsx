@@ -57,7 +57,7 @@ const UploadPortfolioItem: React.FC <Props> = ({handle}: Props) => {
         <FileUpload
             label="Portfolio image"
             accept={['.jpg', '.png']}
-            onChange={(file) => setFile(file)}/>
+            onChange={setFile} />
         </div>
       </div>
       <button
