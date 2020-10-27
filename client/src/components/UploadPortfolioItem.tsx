@@ -39,8 +39,7 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
     } else {
       fileBase64 = Promise.resolve(null)
     }
-    const filePreview = await fileBase64
-    setPreviewFile(filePreview || null)
+    setPreviewFile(await fileBase64)
   }
 
   return (
@@ -67,7 +66,7 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
             <FileUpload
               label="Portfolio image"
               accept={['.jpg', '.png']}
-              onChange={(file) => setFile(file)}
+              onChange={setFile}
               htmlAttrs={{ required: true }} />
           </div>
         </div>
