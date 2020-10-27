@@ -47,18 +47,19 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
       <h2>Upload Portfolio Item</h2>
       <form onSubmit={handleSubmit}>
         <div className='text-image-block'>
-          <LabeledInput
-            inputType="textarea"
-            label="Portfolio Description"
+          <div className='description'>
+            <LabeledInput
+              inputType="textarea"
+              label="Portfolio Description"
 
-            htmlAttrs={{
-              className: 'description',
-              placeholder: 'Tell me about this',
-              value: description,
-              onChange: e => setDescription(e.target.value),
-              required: true,
-            }}
-          />
+              htmlAttrs={{
+                placeholder: 'Tell me about this',
+                value: description,
+                onChange: e => setDescription(e.target.value),
+                required: true,
+              }}
+            />
+          </div>
           <div className='image-block'>
             {previewFile &&
               <img src={previewFile} className='image-preview' alt="Portfolio image" />
