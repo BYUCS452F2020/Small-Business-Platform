@@ -3,6 +3,7 @@ import {
   BrowserRouter,
   Switch,
   Route,
+  useParams,
 } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
 import Login from './Login'
@@ -10,6 +11,11 @@ import '../styles/index.scss'
 import BusinessRegistration from './BusinessRegistration'
 import Signup from './Signup'
 import BusinessPortfolio from './BusinessPortfolio'
+import NotFound from './NotFound'
+
+const PortfolioWrapper: React.FC = () => (
+  <BusinessPortfolio handle={(useParams() as {handle: string}).handle} />
+)
 
 const AppRoutes = () => {
   return (
@@ -23,13 +29,14 @@ const AppRoutes = () => {
       <PrivateRoute exact path='/business/register'>
         <BusinessRegistration />
       </PrivateRoute>
-      <Route exact path='/'>
-        <BusinessPortfolio />
+      <Route exact path='/b/:handle'>
+        <PortfolioWrapper />
       </Route>
-      <PrivateRoute exact path='/home'>
+      <PrivateRoute exact path='/'>
+        HOME
       </PrivateRoute>
       <Route path='*'>
-        404 Not Found
+        <NotFound />
       </Route>
     </Switch>
   )

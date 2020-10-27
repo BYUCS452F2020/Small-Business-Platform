@@ -3,6 +3,7 @@ import LabeledInput from './LabeledInput'
 import FileUpload from './FileUpload'
 import '../styles/business-registration.scss'
 import {registerBusiness} from '../Backend'
+import {useHistory} from 'react-router-dom'
 
 const BusinessRegistration: React.FC = () => {
   const [name, setName] = useState<string>('')
@@ -13,6 +14,8 @@ const BusinessRegistration: React.FC = () => {
   const [logo, setLogo] = useState<File|null>(null)
   const [handleError, setHandleError] = useState<string>('')
   const [nameError, setNameError] = useState<string>('')
+
+  const history = useHistory()
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
@@ -42,8 +45,7 @@ const BusinessRegistration: React.FC = () => {
 
     try {
       await registerBusiness(business)
-      // TODO: navigate to business page instead of alerting
-      alert('Business registered!')
+      history.push(`/b/${handle}`)
     } catch (err) {
       if(err.message === 'BusinessNameTaken'){
         setNameError('This name is already taken')
@@ -52,7 +54,7 @@ const BusinessRegistration: React.FC = () => {
         setHandleError('This handle is already taken')
       }
       else{
-        alert(err.message)
+        alert('Sorry, an unexpected error occurred. Please try again later.')
       }
     }
   }
@@ -70,6 +72,8 @@ const BusinessRegistration: React.FC = () => {
             required: true,
             type: 'text',
             value: name,
+            minLength : 1,
+            maxLength : 40,
             onChange: (e) => {
               setName(e.target.value)
               setNameError('')
@@ -88,6 +92,8 @@ const BusinessRegistration: React.FC = () => {
             required: true,
             type: 'text',
             value: handle,
+            minLength : 1,
+            maxLength : 20,
             onChange: (e) =>{
               setHandle(e.target.value)
               setHandleError('')
@@ -103,6 +109,8 @@ const BusinessRegistration: React.FC = () => {
             required: true,
             type: 'email',
             value: email,
+            minLength : 5,
+            maxLength : 32,
             onChange: e => setEmail(e.target.value),
           }}
         />
@@ -123,9 +131,9 @@ const BusinessRegistration: React.FC = () => {
           inputType="textarea"
           label="Description"
           htmlAttrs={{
-            maxLength: 100,
             placeholder: 'An awesome company with awesome products and services',
             value: description,
+            maxLength : 100,
             onChange: e => setDescription(e.target.value),
           }}
         />
