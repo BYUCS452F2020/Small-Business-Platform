@@ -6,7 +6,8 @@ import loginUser from './handlers/login-user'
 import getBusiness from './handlers/get-business'
 import handleError from './handlers/error'
 import withErrHandling from './middlewares/with-err-handling'
-import authMiddleware from './middlewares/auth'
+import authMiddleware, { authMiddlewareOptional } from './middlewares/auth'
+
 export function set(app: express.Application): void {
   // TODO: remove this once front- and back-ends are hosted on same domain
   app.use((req, res, next) => {
@@ -19,7 +20,7 @@ export function set(app: express.Application): void {
   app.post('/user/login', withErrHandling(loginUser))
   app.post('/business/register', authMiddleware, withErrHandling(registerBusiness))
   app.post('/business/:handle/portfolio', authMiddleware, withErrHandling(addPortfolioItem))
-  app.get('/business/:handle', authMiddleware, withErrHandling(getBusiness))
+  app.get('/business/:handle', authMiddlewareOptional, withErrHandling(getBusiness))
 
   // error handling - must be last!
   app.use(handleError)

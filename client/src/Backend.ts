@@ -1,7 +1,7 @@
-import Business from './types/business'
+import Business, { isBusiness } from './types/business'
 import User from './types/user'
 import PortfolioItem from './types/portfolioItem'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const baseUrl = 'http://localhost:8000'
 
@@ -22,10 +22,8 @@ export function hasAuthToken(): boolean {
 }
 
 export async function signup(user: User, password: string): Promise<void> {
-  const url = `${baseUrl}/user/register`
-
   try {
-    const response = await axios.post(url, {
+    const response = await request<{ authToken: string }>('/user/register', 'post', {
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.username,
@@ -45,18 +43,20 @@ export async function signup(user: User, password: string): Promise<void> {
 }
 
 export async function login(username: string, password: string): Promise<void> {
-  const url = `${baseUrl}/user/login`
-
   try {
-    const response = await axios.post(url, { username, password })
+    const response = await request<{ authToken: string }>('/user/login', 'post', {
+      username,
+      password,
+    })
+
     setAuthToken(response.data.authToken)
   } catch (err) {
     if (err.response) {
       switch (err.response.status) {
-      case 404:
-        throw new Error('UserNotFound')
-      case 401:
-        throw new Error('IncorrectPassword')
+        case 404:
+          throw new Error('UserNotFound')
+        case 401:
+          throw new Error('IncorrectPassword')
       }
     }
 
@@ -66,32 +66,73 @@ export async function login(username: string, password: string): Promise<void> {
 }
 
 export async function registerBusiness(business: Business): Promise<void> {
-  const url = `${baseUrl}/business/register`
   try {
-    await axios.post(url, {
+    await request('/business/register', 'post', {
       name: business.name,
       handle: business.handle,
       email: business.email,
       website: business.website,
       description: business.description,
       logo: business.logo,
-    }, {
-      headers: {
-        Authorization: `Bearer ${getAuthToken()}`,
-      },
     })
+  } catch (err) {
+    if (err.response && err.response.data) {
+      if (err.response.data.error === 'BusinessNameTaken') {
+        throw new Error('BusinessNameTaken')
+      } else if (err.response.data.error === 'BusinessHandleTaken') {
+        throw new Error('BusinessHandleTaken')
+      }
+    }
+
+    if (err.message === 'UnauthorizedRequest') {
+      throw err
+    }
+
+    console.error('unexpected error registering business', business, err)
+    throw new Error('FailedRegisterBusiness')
   }
-  catch (err) {
-    if (err.response.data.error === 'BusinessNameTaken') {
-      throw new Error('BusinessNameTaken')
+}
+
+export async function getBusiness(handle: string): Promise<Business> {
+  let response
+  try {
+    response = await request<Business>(`/business/${handle}`, 'get')
+  } catch (err) {
+    if (err.response && err.response.status === 404) {
+      throw new Error('BusinessNotFound')
     }
-    else if (err.response.data.error === 'BusinessHandleTaken') {
-      throw new Error('BusinessHandleTaken')
+
+    if (err.message === 'UnauthorizedRequest') {
+      throw err
     }
-    else {
-      console.log('unexpected error registering business: ', err)
-      throw new Error('Sorry, an unexpected error occurred. Please try again later.')
+
+    console.error('unexpected error getting business', handle, err)
+    throw new Error('FailedGetBusiness')
+  }
+
+  if (!isBusiness(response.data)) {
+    console.error('expecting response data to be a business, got', response.data)
+    throw new Error('FailedGetBusiness')
+  }
+
+  return response.data
+}
+
+async function request<T>(
+  url: string,
+  method: 'get' | 'post',
+  data?: Record<string, unknown>,
+): Promise<AxiosResponse<T>> {
+  const headers = getAuthToken() ? { Authorization: `Bearer ${getAuthToken()}` } : {}
+
+  try {
+    return await axios({ method, url, baseURL: baseUrl, data, headers })
+  } catch (err) {
+    if (err.response && err.response.status === 401) {
+      throw new Error('UnauthorizedRequest')
     }
+
+    throw err
   }
 }
 
