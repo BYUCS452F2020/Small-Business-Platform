@@ -38,8 +38,7 @@ const UploadPortfolioItem: React.FC <Props> = ({handle}: Props) => {
     } else {
       fileBase64 = Promise.resolve(null)
     }
-    let filePreview = await fileBase64
-    setPreviewFile(filePreview || null)
+    setPreviewFile(await fileBase64)
   }
 
   return(
