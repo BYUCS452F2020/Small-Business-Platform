@@ -1,32 +1,33 @@
-import React, {useState} from 'react'
+import React, { FormEvent, useState } from 'react'
 import FileUpload from './FileUpload'
 import '../styles/upload-portfolio-item.scss'
-import {addPortfolio} from '../Backend'
+import { addPortfolio } from '../Backend'
+import LabeledInput from './LabeledInput'
 
-interface Props {handle: string}
+interface Props { handle: string }
 
-
-const UploadPortfolioItem: React.FC <Props> = ({handle}: Props) => {
+const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
   const [description, setDescription] = useState<string>('')
-  const [previewFile, setPreviewFile] = useState<string|null>('')
+  const [previewFile, setPreviewFile] = useState<string | null>(null)
 
-  async function handleSubmit() {
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault()
     const portfolioItem = {
       description: description,
       file: previewFile,
-      handle: handle
+      handle: handle,
     }
-  
-    try{
+
+    try {
       await addPortfolio(portfolioItem)
       console.log('Portfolio submitted')
-    } catch(err) {
+    } catch (err) {
       alert(err.message)
     }
   }
 
   async function setFile(file: File | null) {
-    let fileBase64: Promise<string|null>;
+    let fileBase64: Promise<string | null>
     if (file) {
       fileBase64 = new Promise(resolve => {
         const reader = new FileReader()
@@ -38,36 +39,45 @@ const UploadPortfolioItem: React.FC <Props> = ({handle}: Props) => {
     } else {
       fileBase64 = Promise.resolve(null)
     }
-    let filePreview = await fileBase64
+    const filePreview = await fileBase64
     setPreviewFile(filePreview || null)
   }
 
-  return(
+  return (
     <section className='portfolio-upload'>
       <h2>Upload Portfolio Item</h2>
-      <div className='text-image-block'>
-        <textarea 
-          className='description' 
-          placeholder="Tell me about this"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}/>
-        <div className='image-block'>
-          {previewFile && 
-              <img src={previewFile} className='image-preview' alt="Portfolio image"/>
-          }
-        <FileUpload
-            label="Portfolio image"
-            accept={['.jpg', '.png']}
-            onChange={(file) => setFile(file)}/>
+      <form onSubmit={handleSubmit}>
+        <div className='text-image-block'>
+          <LabeledInput
+            inputType="textarea"
+            label="Portfolio Description"
+
+            htmlAttrs={{
+              className: 'description',
+              placeholder: 'Tell me about this',
+              value: description,
+              onChange: e => setDescription(e.target.value),
+              required: true,
+            }}
+          />
+          <div className='image-block'>
+            {previewFile &&
+              <img src={previewFile} className='image-preview' alt="Portfolio image" />
+            }
+            <FileUpload
+              label="Portfolio image"
+              accept={['.jpg', '.png']}
+              onChange={(file) => setFile(file)}
+              htmlAttrs={{ required: true }} />
+          </div>
         </div>
-      </div>
-      <button
-        className="btn-plain smaller"
-        type="submit"
-        disabled={!description || !previewFile}
-        onClick={handleSubmit}>
-        Publish
-      </button>  
+        <button
+          className="btn-plain smaller"
+          type="submit"
+          disabled={!description || !previewFile}>
+          Publish
+        </button>
+      </form>
     </section>
   )
 }

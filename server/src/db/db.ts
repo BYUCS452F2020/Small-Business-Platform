@@ -8,6 +8,6 @@ export async function createTables(): Promise<void> {
     createUserTable(),
     createAuthTokenTable(),
     createBusinessTable(),
-    createPortfolioTable()
+    createPortfolioTable(),
   ])
 }

@@ -5,11 +5,11 @@ import axios from 'axios'
 
 const baseUrl = 'http://localhost:8000'
 
-function getAuthToken(): string|undefined {
+function getAuthToken(): string | undefined {
   return localStorage.authToken
 }
 
-function setAuthToken(token: string|undefined): void {
+function setAuthToken(token: string | undefined): void {
   if (token === undefined) {
     delete localStorage.authToken
   } else {
@@ -48,7 +48,7 @@ export async function login(username: string, password: string): Promise<void> {
   const url = `${baseUrl}/user/login`
 
   try {
-    const response = await axios.post(url, {username, password})
+    const response = await axios.post(url, { username, password })
     setAuthToken(response.data.authToken)
   } catch (err) {
     if (err.response) {
@@ -89,25 +89,26 @@ export async function registerBusiness(business: Business): Promise<void> {
       throw new Error('BusinessHandleTaken')
     }
     else {
+      console.log('unexpected error registering business: ', err)
       throw new Error('Sorry, an unexpected error occurred. Please try again later.')
     }
   }
 }
 
 export async function addPortfolio(portfolioItem: PortfolioItem): Promise<void> {
-  const url = `${baseUrl}/business/portfolio`
+  const url = `${baseUrl}/business/${portfolioItem.handle}/portfolio`
   try {
     await axios.post(url, {
       description: portfolioItem.description,
       file: portfolioItem.file,
-      handle: portfolioItem.handle
     }, {
       headers: {
         Authorization: `Bearer ${getAuthToken()}`,
       },
     })
   }
-  catch(err){
+  catch (err) {
+    console.log('unexpected error adding portfolio item: ', err)
     throw new Error('Sorry, an unexpected error occurred. Please try again later.')
   }
 }

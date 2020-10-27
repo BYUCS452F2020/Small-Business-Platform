@@ -17,14 +17,14 @@ export async function insert(
   businessHandle: string,
 ): Promise<void> {
   try {
-   let result = await pool.query(
+    const result = await pool.query(
       `SELECT businessID
       FROM business
       WHERE handle = $1`,
       [businessHandle],
     )
     if(result.rows && result.rows[0] && result.rows[0].businessid){
-      let businessID = result.rows[0].businessid
+      const businessID = result.rows[0].businessid
       await pool.query(
         `INSERT INTO portfolio (userID, description, file)
               VALUES($1, $2, $3)

@@ -6,7 +6,11 @@ section.portfolio-upload{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    textarea.description{
+    .labeled-input{
+      min-width: 50%;
+    }
+    .description{
+      min-width: 50%;
       flex-basis: 50%; 
       flex-grow: 0;
       border: none;

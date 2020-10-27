@@ -8,7 +8,6 @@ import getBusiness from './handlers/get-business'
 import handleError from './handlers/error'
 import { set as setRoutes } from './routes'
 import authMiddleware from './middlewares/auth'
-import handler from './handlers/register-user'
 
 jest.mock('./handlers/error', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,14 +54,14 @@ describe('Routes', () => {
         handler: registerBusiness,
       },
       {
-        method: 'post',
-        path: '/business/portfolio',
-        handler: addPortfolioItem
-      },
-      {
         method: 'get',
         path: '/business/handle',
         handler: getBusiness,
+      },
+      {
+        method: 'post',
+        path: '/business/handle/portfolio',
+        handler: addPortfolioItem,
       },
     ]
 

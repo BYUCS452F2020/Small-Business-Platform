@@ -19,7 +19,7 @@ describe('Portfolio DB', () => {
     it('throws FailedCreatePortfolio if an error occurs', async () => {
       (pg.Pool.prototype.query as jest.Mock).mockRejectedValue({code: 'thisCodeWillFail'})
       await expect(insert(
-        'description-string,', 'file-string', 'handle'
+        'description-string,', 'file-string', 'handle',
       ))
         .rejects
         .toThrow('FailedCreatePortfolio')

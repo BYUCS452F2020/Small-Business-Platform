@@ -18,7 +18,7 @@ export function set(app: express.Application): void {
   app.post('/user/register', withErrHandling(registerUser))
   app.post('/user/login', withErrHandling(loginUser))
   app.post('/business/register', authMiddleware, withErrHandling(registerBusiness))
-  app.post('/business/portfolio', authMiddleware, withErrHandling(addPortfolioItem))
+  app.post('/business/:handle/portfolio', authMiddleware, withErrHandling(addPortfolioItem))
   app.get('/business/:handle', authMiddleware, withErrHandling(getBusiness))
 
   // error handling - must be last!
