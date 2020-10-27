@@ -9,7 +9,7 @@ import PrivateRoute from './PrivateRoute'
 import Login from './Login'
 import '../styles/index.scss'
 import BusinessRegistration from './BusinessRegistration'
-import Signup from './Signup'
+import Signup from './SignUp'
 import BusinessPortfolio from './BusinessPortfolio'
 import NotFound from './NotFound'
 
