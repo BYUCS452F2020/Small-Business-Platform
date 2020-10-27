@@ -1,45 +1,45 @@
 import React, { FormEvent, useState } from 'react'
 import FileUpload from './FileUpload'
 import '../styles/upload-portfolio-item.scss'
-import { addPortfolio } from '../Backend'
+import { addPortfolioItem } from '../Backend'
 import LabeledInput from './LabeledInput'
 
 interface Props { handle: string }
 
 const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
   const [description, setDescription] = useState<string>('')
-  const [previewFile, setPreviewFile] = useState<string | null>(null)
+  const [previewFileData, setPreviewFileData] = useState<string>('')
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     const portfolioItem = {
       description: description,
-      file: previewFile,
-      handle: handle,
+      file: previewFileData,
     }
 
     try {
-      await addPortfolio(portfolioItem)
+      await addPortfolioItem(portfolioItem, handle)
       console.log('Portfolio submitted')
     } catch (err) {
-      alert(err.message)
+      alert('Sorry, an unexpected error occurred. Please try again later.')
     }
   }
 
   async function setFile(file: File | null) {
-    let fileBase64: Promise<string | null>
+    let fileBase64: Promise<string>
     if (file) {
       fileBase64 = new Promise(resolve => {
         const reader = new FileReader()
         reader.addEventListener('load', () => {
-          resolve(reader.result && reader.result.toString())
+          resolve(reader.result && reader.result.toString() || '')
         })
         reader.readAsDataURL(file)
       })
     } else {
-      fileBase64 = Promise.resolve(null)
+      fileBase64 = Promise.resolve('')
     }
-    setPreviewFile(await fileBase64)
+
+    setPreviewFileData(await fileBase64)
   }
 
   return (
@@ -50,7 +50,7 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
           <div className='description'>
             <LabeledInput
               inputType="textarea"
-              label="Portfolio Description"
+              label="Description"
 
               htmlAttrs={{
                 placeholder: 'Tell me about this',
@@ -61,11 +61,15 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
             />
           </div>
           <div className='image-block'>
-            {previewFile &&
-              <img src={previewFile} className='image-preview' alt="Portfolio image" />
+            {
+              previewFileData &&
+              <img
+                src={previewFileData}
+                className='image-preview'
+                alt="Portfolio image" />
             }
             <FileUpload
-              label="Portfolio image"
+              label="Image"
               accept={['.jpg', '.png']}
               onChange={setFile}
               htmlAttrs={{ required: true }} />
@@ -74,7 +78,7 @@ const UploadPortfolioItem: React.FC<Props> = ({ handle }: Props) => {
         <button
           className="btn-plain smaller"
           type="submit"
-          disabled={!description || !previewFile}>
+          disabled={!description || !previewFileData}>
           Publish
         </button>
       </form>

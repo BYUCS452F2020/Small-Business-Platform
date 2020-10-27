@@ -53,10 +53,10 @@ export async function login(username: string, password: string): Promise<void> {
   } catch (err) {
     if (err.response) {
       switch (err.response.status) {
-        case 404:
-          throw new Error('UserNotFound')
-        case 401:
-          throw new Error('IncorrectPassword')
+      case 404:
+        throw new Error('UserNotFound')
+      case 401:
+        throw new Error('IncorrectPassword')
       }
     }
 
@@ -118,6 +118,22 @@ export async function getBusiness(handle: string): Promise<Business> {
   return response.data
 }
 
+export async function addPortfolioItem(portfolioItem: PortfolioItem, handle: string): Promise<void> {
+  try {
+    await request(`/business/${handle}/portfolio`, 'post', {
+      description: portfolioItem.description,
+      file: portfolioItem.file,
+    })
+  } catch (err) {
+    if (err.message === 'UnauthorizedRequest') {
+      throw err
+    }
+
+    console.log('unexpected error adding portfolio item', err)
+    throw new Error('FailedAddPortfolioItem')
+  }
+}
+
 async function request<T>(
   url: string,
   method: 'get' | 'post',
@@ -136,20 +152,3 @@ async function request<T>(
   }
 }
 
-export async function addPortfolio(portfolioItem: PortfolioItem): Promise<void> {
-  const url = `${baseUrl}/business/${portfolioItem.handle}/portfolio`
-  try {
-    await axios.post(url, {
-      description: portfolioItem.description,
-      file: portfolioItem.file,
-    }, {
-      headers: {
-        Authorization: `Bearer ${getAuthToken()}`,
-      },
-    })
-  }
-  catch (err) {
-    console.log('unexpected error adding portfolio item: ', err)
-    throw new Error('Sorry, an unexpected error occurred. Please try again later.')
-  }
-}
