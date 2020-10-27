@@ -2,7 +2,7 @@ import React from 'react'
 import icon from '../assets/demo_icon.jpg'
 import '../styles/business-portfolio.scss'
 
-const UserPortfolio : React.FC = () => {
+const BusinessPortfolio : React.FC = () => {
   return (
     <div className="portfolio-body">
       <div className="top-half">
@@ -63,4 +63,4 @@ const UserPortfolio : React.FC = () => {
   )
 }
 
-export default UserPortfolio
+export default BusinessPortfolio
