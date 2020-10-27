@@ -1,6 +1,6 @@
 import React from 'react'
 import icon from '../assets/demo_icon.jpg'
-import '../styles/user-portfolio.scss'
+import '../styles/business-portfolio.scss'
 
 const UserPortfolio : React.FC = () => {
   return (
