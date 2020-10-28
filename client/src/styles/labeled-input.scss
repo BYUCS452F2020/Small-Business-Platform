@@ -1,15 +1,15 @@
 .labeled-input {
     margin: 2rem 1rem;
-}
 
-.labeled-input input, textarea {
-    background: #F0F0F0;
-    border: 0.1rem solid #C7BEBE;
-    border-radius: 0.4rem;
-    display: block;
-    margin-top: 0.2rem;
-    padding: 1rem;
-    width: 100%;
+    input, textarea {
+        background: #F0F0F0;
+        border: 0.1rem solid #C7BEBE;
+        border-radius: 0.4rem;
+        display: block;
+        margin-top: 0.2rem;
+        padding: 1rem;
+        width: 100%;
+    }
 }
 
 .labeled-input-label {

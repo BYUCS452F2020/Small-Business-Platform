@@ -4,6 +4,8 @@ import '../styles/business-portfolio.scss'
 import {getBusiness} from '../Backend'
 import NotFound from './NotFound'
 import PortfolioAdminBar from './PortfolioAdminBar'
+import Dialog from './Dialog'
+import UploadPortfolioItem from './UploadPortfolioItem'
 
 interface Props {
   handle: string
@@ -17,6 +19,7 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
   const [logo, setLogo] = useState<string>('')
   const [editable, setEditable] = useState<boolean>(false)
   const [notFound, setNotFound] = useState<boolean>(false)
+  const [showAddItemDialog, setShowAddItemDialog] = useState<boolean>(false)
 
   useEffect(() => {
     (async () => {
@@ -42,7 +45,26 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
 
   return notFound ? <NotFound /> : (
     <>
-      {editable && <PortfolioAdminBar handle={handle} />}
+      {
+        showAddItemDialog && (
+          <div className="add-item-dialog">
+            <Dialog onClose={() => setShowAddItemDialog(false)}>
+              <UploadPortfolioItem
+                handle={handle}
+                onSuccess={() => setShowAddItemDialog(false)}
+              />
+            </Dialog>
+          </div>
+        )
+      }
+      {
+        editable && (
+          <PortfolioAdminBar
+            handle={handle}
+            onAddItemClicked={() => setShowAddItemDialog(true)}
+          />
+        )
+      }
       <div className="portfolio-body">
         <div className="top-half">
           {/* TODO: Fix the "left-half" and "container" classes to be responsive for small screens */}

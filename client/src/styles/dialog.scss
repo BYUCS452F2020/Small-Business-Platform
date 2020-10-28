@@ -1,0 +1,53 @@
+.dialog-backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-backdrop, .dialog {
+    z-index: 10000;
+}
+
+.dialog {
+    position: fixed;
+    top: 2rem;
+
+    border: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: auto;
+
+    background: #f8f8f8;
+    box-shadow: 1rem 1rem 5rem rgba(0, 0, 0, 0.5);
+
+    max-height: calc(100vh - 4rem);
+
+    .dialog-content {
+        max-height: calc(100vh - 6rem);
+        overflow-y: scroll;
+    }
+
+    .dialog-close-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0.5rem;
+
+        background: none;
+        border: none;
+        cursor: pointer;
+
+        line-height: 1rem;
+        font-size: 1.3rem;
+        color: #333;
+
+        &:hover {
+            color: #000;
+        }
+    }
+
+}
