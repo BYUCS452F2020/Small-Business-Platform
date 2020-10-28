@@ -3,10 +3,11 @@ import express from 'express'
 import registerUser from './handlers/register-user'
 import loginUser from './handlers/login-user'
 import registerBusiness from './handlers/register-business'
+import createPortfolioItem from './handlers/create-portfolio-item'
 import getBusiness from './handlers/get-business'
 import handleError from './handlers/error'
-import {set as setRoutes} from './routes'
-import authMiddleware, {authMiddlewareOptional} from './middlewares/auth'
+import { set as setRoutes } from './routes'
+import authMiddleware, { authMiddlewareOptional } from './middlewares/auth'
 
 jest.mock('./handlers/error', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -20,6 +21,7 @@ jest.mock('./handlers/register-user')
 jest.mock('./handlers/login-user')
 jest.mock('./handlers/register-business')
 jest.mock('./handlers/get-business')
+jest.mock('./handlers/create-portfolio-item')
 
 describe('Routes', () => {
   let app: express.Application
@@ -29,7 +31,7 @@ describe('Routes', () => {
     setRoutes(app)
 
     ;(authMiddleware as jest.Mock).mockImplementation((req, res, next) => {
-      req.auth = {userId: 123}
+      req.auth = { userId: 123 }
       next()
     })
 
@@ -62,9 +64,14 @@ describe('Routes', () => {
         path: '/business/handle',
         handler: getBusiness,
       },
+      {
+        method: 'post',
+        path: '/business/handle/portfolio',
+        handler: createPortfolioItem,
+      },
     ]
 
-    for (const {method, path, handler} of routes) {
+    for (const { method, path, handler } of routes) {
       it(`${method} ${path} handles async errors`, async () => {
         (handler as jest.Mock).mockImplementation(async () => {
           throw new Error('ahhh')

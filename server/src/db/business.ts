@@ -84,3 +84,24 @@ export async function get(handle: string): Promise<Business> {
     description: result.rows[0].description || undefined,
   }
 }
+
+export async function getId(handle: string): Promise<number> {
+  let result
+  try {
+    result = await pool.query(
+      `SELECT businessID
+       FROM business
+       WHERE handle = $1`,
+      [handle],
+    )
+  } catch (err) {
+    console.error('unexpected error getting business id', handle, err)
+    throw new Error('FailedGetBusinessId')
+  }
+
+  if (result.rows.length === 0) {
+    throw new Error('BusinessNotFound')
+  }
+
+  return result.rows[0].businessid
+}

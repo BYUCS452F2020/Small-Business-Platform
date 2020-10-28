@@ -3,17 +3,19 @@ import '../styles/portfolio-admin-bar.scss'
 
 interface Props {
   handle: string
+  onAddItemClicked: () => void
 }
 
-const PortfolioAdminBar: React.FC<Props> = ({handle}: Props) => {
+const PortfolioAdminBar: React.FC<Props> = (props: Props) => {
   return (
     <div className="portfolio-admin">
       <span>
-        You are currently viewing your business ({handle}) as customers will see it.
+        You are currently viewing your business ({props.handle}) as customers will see it.
       </span>
 
-      {/* TODO: make this button work */}
-      <button> Add Portfolio Item </button>
+      <button onClick={props.onAddItemClicked}>
+        Add Portfolio Item
+      </button>
     </div>
   )
 }

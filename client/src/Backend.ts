@@ -1,14 +1,15 @@
-import Business, {isBusiness} from './types/business'
+import Business, { isBusiness } from './types/business'
 import User from './types/user'
-import axios, {AxiosResponse} from 'axios'
+import PortfolioItem from './types/portfolioItem'
+import axios, { AxiosResponse } from 'axios'
 
 const baseUrl = 'http://localhost:8000'
 
-function getAuthToken(): string|undefined {
+function getAuthToken(): string | undefined {
   return localStorage.authToken
 }
 
-function setAuthToken(token: string|undefined): void {
+function setAuthToken(token: string | undefined): void {
   if (token === undefined) {
     delete localStorage.authToken
   } else {
@@ -22,7 +23,7 @@ export function hasAuthToken(): boolean {
 
 export async function signup(user: User, password: string): Promise<void> {
   try {
-    const response = await request<{authToken: string}>('/user/register', 'post', {
+    const response = await request<{ authToken: string }>('/user/register', 'post', {
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.username,
@@ -43,7 +44,7 @@ export async function signup(user: User, password: string): Promise<void> {
 
 export async function login(username: string, password: string): Promise<void> {
   try {
-    const response = await request<{authToken: string}>('/user/login', 'post', {
+    const response = await request<{ authToken: string }>('/user/login', 'post', {
       username,
       password,
     })
@@ -117,15 +118,31 @@ export async function getBusiness(handle: string): Promise<Business> {
   return response.data
 }
 
+export async function addPortfolioItem(portfolioItem: PortfolioItem, handle: string): Promise<void> {
+  try {
+    await request(`/business/${handle}/portfolio`, 'post', {
+      description: portfolioItem.description,
+      file: portfolioItem.file,
+    })
+  } catch (err) {
+    if (err.message === 'UnauthorizedRequest') {
+      throw err
+    }
+
+    console.log('unexpected error adding portfolio item', err)
+    throw new Error('FailedAddPortfolioItem')
+  }
+}
+
 async function request<T>(
   url: string,
-  method: 'get'|'post',
+  method: 'get' | 'post',
   data?: Record<string, unknown>,
 ): Promise<AxiosResponse<T>> {
-  const headers = getAuthToken() ? {Authorization: `Bearer ${getAuthToken()}`}: {}
+  const headers = getAuthToken() ? { Authorization: `Bearer ${getAuthToken()}` } : {}
 
   try {
-    return await axios({method, url, baseURL: baseUrl, data, headers})
+    return await axios({ method, url, baseURL: baseUrl, data, headers })
   } catch (err) {
     if (err.response && err.response.status === 401) {
       throw new Error('UnauthorizedRequest')
@@ -134,3 +151,4 @@ async function request<T>(
     throw err
   }
 }
+
