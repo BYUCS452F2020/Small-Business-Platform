@@ -33,3 +33,26 @@ export async function insert(
     throw new Error('FailedInsertPortfolioItem')
   }
 }
+
+interface Portfolio {
+  file: string,
+  description: string
+}
+
+export async function get(businessId: number): Promise<Array<Portfolio>> {
+  let result
+  try {
+    result = await pool.query(
+      `SELECT file description
+      FROM portfolio
+      where businessId = $1`,
+      [businessId],
+    )
+    
+  } catch(err) {
+    console.log('Sorry, an unexpected error getting the portfolio')
+    throw new Error('FailedGetPortfolio')
+  }
+
+  return result.rows
+}
