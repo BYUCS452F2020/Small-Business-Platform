@@ -3,6 +3,7 @@ import FileUpload from './FileUpload'
 import '../styles/upload-portfolio-item.scss'
 import { addPortfolioItem } from '../Backend'
 import LabeledInput from './LabeledInput'
+import {useHistory} from 'react-router-dom'
 
 interface Props {
   handle: string
@@ -13,6 +14,8 @@ const UploadPortfolioItem: React.FC<Props> = ({handle, onSuccess}: Props) => {
   const [description, setDescription] = useState<string>('')
   const [previewFileData, setPreviewFileData] = useState<string>('')
 
+  const history = useHistory()
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
@@ -20,7 +23,12 @@ const UploadPortfolioItem: React.FC<Props> = ({handle, onSuccess}: Props) => {
       await addPortfolioItem(description, previewFileData, handle)
       onSuccess()
     } catch (err) {
-      alert('Sorry, an unexpected error occurred. Please try again later.')
+      if (err.message === 'UnauthorizedRequest') {
+        alert('Whoops, you need to log in again.')
+        history.push('/login')
+      } else {
+        alert('Sorry, an unexpected error occurred. Please try again later.')
+      }
     }
   }
 
