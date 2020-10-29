@@ -15,13 +15,9 @@ const UploadPortfolioItem: React.FC<Props> = ({handle, onSuccess}: Props) => {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    const portfolioItem = {
-      description: description,
-      file: previewFileData,
-    }
 
     try {
-      await addPortfolioItem(portfolioItem, handle)
+      await addPortfolioItem(description, previewFileData, handle)
       onSuccess()
     } catch (err) {
       alert('Sorry, an unexpected error occurred. Please try again later.')

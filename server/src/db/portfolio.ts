@@ -51,7 +51,7 @@ export async function get(businessId: number): Promise<Portfolio> {
 
   return result.rows.map(r => ({
     id: r.itemid,
-    file: r.file,
+    file: r.file.toString(),
     description: r.description,
   }))
 }

@@ -1,6 +1,6 @@
 import Business, { isBusiness } from './types/business'
 import User from './types/user'
-import PortfolioItem from './types/portfolioItem'
+import PortfolioItem, {arePortfolioItems} from './types/portfolioItem'
 import axios, { AxiosResponse } from 'axios'
 
 const baseUrl = 'http://localhost:8000'
@@ -118,11 +118,15 @@ export async function getBusiness(handle: string): Promise<Business> {
   return response.data
 }
 
-export async function addPortfolioItem(portfolioItem: PortfolioItem, handle: string): Promise<void> {
+export async function addPortfolioItem(
+  description: string,
+  file: string,
+  handle: string,
+): Promise<void> {
   try {
     await request(`/business/${handle}/portfolio`, 'post', {
-      description: portfolioItem.description,
-      file: portfolioItem.file,
+      description,
+      file,
     })
   } catch (err) {
     if (err.message === 'UnauthorizedRequest') {
@@ -134,6 +138,27 @@ export async function addPortfolioItem(portfolioItem: PortfolioItem, handle: str
   }
 }
 
+export async function getPortfolio(handle: string): Promise<PortfolioItem[]> {
+  let response
+
+  try {
+    response = await request<{items: PortfolioItem[]}>(
+      `business/${handle}/portfolio`,
+      'get',
+    )
+  } catch (err) {
+    console.log('unexpected error getting portfolio', handle, err)
+    throw new Error('FailedGetPortfolio')
+  }
+
+  if (!arePortfolioItems(response.data.items)) {
+    console.log('expecting response data to be portfolio, got', response.data)
+    throw new Error('FailedGetPortfolio')
+  }
+
+  return response.data.items
+}
+
 async function request<T>(
   url: string,
   method: 'get' | 'post',
@@ -142,7 +167,7 @@ async function request<T>(
   const headers = getAuthToken() ? { Authorization: `Bearer ${getAuthToken()}` } : {}
 
   try {
-    return await axios({ method, url, baseURL: baseUrl, data, headers })
+    return await axios.request<T>({ method, url, baseURL: baseUrl, data, headers })
   } catch (err) {
     if (err.response && err.response.status === 401) {
       throw new Error('UnauthorizedRequest')
