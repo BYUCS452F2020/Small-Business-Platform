@@ -5,7 +5,7 @@ interface Props {
   label: string
   accept: FileExtension[]
   onChange: (file: File | null) => void
-  htmlAttrs: React.InputHTMLAttributes<HTMLInputElement>
+  htmlAttrs?: React.InputHTMLAttributes<HTMLInputElement>
 }
 
 type FileExtension = '.jpg' | '.png'
