@@ -7,7 +7,7 @@ export async function createTable(): Promise<void> {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS "business" (
             businessID   SERIAL PRIMARY KEY,
-            userID       INTEGER NOT NULL, 
+            userID       INTEGER REFERENCES "user" (id) ON DELETE CASCADE,
             name         VARCHAR(40) NOT NULL UNIQUE,
             handle       VARCHAR(20) NOT NULL UNIQUE,
             email        VARCHAR(32) NOT NULL,

@@ -5,7 +5,7 @@ export async function createTable(): Promise<void> {
   await pool.query(
     `CREATE TABLE IF NOT EXISTS portfolio (
        itemID       SERIAL PRIMARY KEY,
-       businessID   INTEGER NOT NULL, 
+       businessID   INTEGER REFERENCES business (businessID) ON DELETE CASCADE,
        description  VARCHAR(100) NOT NULL,
        file         BYTEA NOT NULL
      )`,
