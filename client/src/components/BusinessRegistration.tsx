@@ -53,6 +53,10 @@ const BusinessRegistration: React.FC = () => {
       else if(err.message === 'BusinessHandleTaken'){
         setHandleError('This handle is already taken')
       }
+      else if (err.message === 'UnauthorizedRequest') {
+        alert('Whoops, you need to log in again.')
+        history.push('/login')
+      }
       else{
         alert('Sorry, an unexpected error occurred. Please try again later.')
       }

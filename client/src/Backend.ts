@@ -4,21 +4,32 @@ import PortfolioItem, {arePortfolioItems} from './types/portfolioItem'
 import axios, { AxiosResponse } from 'axios'
 
 const baseUrl = 'http://localhost:8000'
+const authTokenExpireDuration = 1000 * 60 * 60 * 2 - 5000 // almost 2 hours
 
 function getAuthToken(): string | undefined {
+  if (localStorage.authTokenExpireTime &&
+      parseInt(localStorage.authTokenExpireTime) <= Date.now()) {
+    setAuthToken(undefined)
+    return undefined
+  }
+
   return localStorage.authToken
 }
 
 function setAuthToken(token: string | undefined): void {
   if (token === undefined) {
     delete localStorage.authToken
+    delete localStorage.authTokenExpireTime
   } else {
     localStorage.authToken = token
+    localStorage.authTokenExpireTime = Date.now() + authTokenExpireDuration
   }
 }
 
 export function hasAuthToken(): boolean {
-  return !!localStorage.authToken
+  return !!localStorage.authToken &&
+    !!localStorage.authTokenExpireTime &&
+    parseInt(localStorage.authTokenExpireTime) > Date.now()
 }
 
 export async function signup(user: User, password: string): Promise<void> {
@@ -100,10 +111,6 @@ export async function getBusiness(handle: string): Promise<Business> {
   } catch (err) {
     if (err.response && err.response.status === 404) {
       throw new Error('BusinessNotFound')
-    }
-
-    if (err.message === 'UnauthorizedRequest') {
-      throw err
     }
 
     console.error('unexpected error getting business', handle, err)
