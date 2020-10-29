@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import defaultLogo from '../assets/demo_icon.jpg'
 import '../styles/business-portfolio.scss'
-import {getBusiness} from '../Backend'
+import {getBusiness, getPortfolio} from '../Backend'
 import NotFound from './NotFound'
 import PortfolioAdminBar from './PortfolioAdminBar'
 import Dialog from './Dialog'
 import UploadPortfolioItem from './UploadPortfolioItem'
+import PortfolioItem from 'types/portfolioItem'
+import PortfolioItemList from './PortfolioItemList'
 
 interface Props {
   handle: string
@@ -20,6 +22,7 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
   const [editable, setEditable] = useState<boolean>(false)
   const [notFound, setNotFound] = useState<boolean>(false)
   const [showAddItemDialog, setShowAddItemDialog] = useState<boolean>(false)
+  const [portfolioItems, setPortfolioItems] = useState<PortfolioItem[]>([])
 
   useEffect(() => {
     (async () => {
@@ -39,6 +42,16 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
         default:
           alert('Sorry, an unexpected error occurred. Please try again later.')
         }
+      }
+    })()
+  }, [])
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setPortfolioItems(await getPortfolio(handle))
+      } catch (err) {
+        alert('Sorry, an unexpected error occurred. Please try again later.')
       }
     })()
   }, [])
@@ -67,10 +80,9 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
       }
       <div className="portfolio-body">
         <div className="top-half">
-          {/* TODO: Fix the "left-half" and "container" classes to be responsive for small screens */}
           <div className="left-half">
             <div className="container">
-              <img src={logo ? logo : defaultLogo}/>
+              <img className="logo" src={logo ? logo : defaultLogo}/>
               <div className="business-info">
                 <div className="business-name"> {name} </div>
                 <div className="business-description"> {description} </div>
@@ -91,7 +103,7 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <button className="btn-plain"> Contact </button>
+                        <button className="contact-btn btn-plain"> Contact </button>
                       </a>
                     )
                   }
@@ -100,34 +112,15 @@ const BusinessPortfolio : React.FC<Props> = ({handle}: Props) => {
             </div>
           </div>
           <div className="right-half">
-            <div className="featured-gallery-container">
-              <div className="featured-gallery">
-                <div className="item-placeholder">
-                Item 1
-                </div>
-                <div className="item-placeholder">
-                Item 2
-                </div>
-                <div className="item-placeholder">
-                Item 3
-                </div>
-                <div className="item-placeholder">
-                Item 4
-                </div>
-              </div>
+            <div className="featured-gallery pi-2-wide pi-no-description">
+              <PortfolioItemList items={portfolioItems.slice(0, 4)} />
             </div>
           </div>
         </div>
         <hr className="solid" />
         <div className="bottom-half">
           <div className="portfolio-gallery">
-            {/* TODO: Get the portfolio items and populate the portfolio */}
-            <div className="item-placeholder">Item 1</div>
-            <div className="item-placeholder">Item 2</div>
-            <div className="item-placeholder">Item 3</div>
-            <div className="item-placeholder">Item 4</div>
-            <div className="item-placeholder">Item 5</div>
-            <div className="item-placeholder">Item 6</div>
+            <PortfolioItemList items={portfolioItems} />
           </div>
         </div>
       </div>

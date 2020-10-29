@@ -1,5 +1,5 @@
 import pg from 'pg'
-import { insert } from './portfolio'
+import { insert, get } from './portfolio'
 
 jest.mock('pg')
 
@@ -25,6 +25,37 @@ describe('Portfolio DB', () => {
         .rejects
         .toThrow('FailedInsertPortfolioItem')
     })
+  })
 
+  describe('get', () => {
+    beforeEach(() => {
+      (pg.Pool.prototype.query as jest.Mock).mockResolvedValue({
+        rows: [
+          {itemid: 1, file: 'abc', description: 'def'},
+          {itemid: 2, file: 'ghi', description: 'jkl'},
+          {itemid: 3, file: 'mno', description: 'pqr'},
+        ],
+      })
+    })
+
+    it('gets all portfolio items for business', async () => {
+      const portfolio = await get(123)
+
+      expect(portfolio).toStrictEqual([
+        {id: 1, file: 'abc', description: 'def'},
+        {id: 2, file: 'ghi', description: 'jkl'},
+        {id: 3, file: 'mno', description: 'pqr'},
+      ])
+
+      expect(pg.Pool.prototype.query).toBeCalledWith(
+        expect.stringMatching(/^SELECT.*FROM portfolio.*WHERE businessID/s),
+        expect.any(Array),
+      )
+    })
+
+    it('throws FailedGetPortfolio if an error occurs', async () => {
+      (pg.Pool.prototype.query as jest.Mock).mockRejectedValue(new Error('oops'))
+      await expect(get(123)).rejects.toThrow('FailedGetPortfolio')
+    })
   })
 })

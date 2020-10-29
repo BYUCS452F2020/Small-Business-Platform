@@ -1,5 +1,7 @@
 import {insert as insertItem} from '../db/portfolio'
+import {get as getPortfolioDb} from '../db/portfolio'
 import {getId as getBusinessId} from '../db/business'
+import Portfolio from '../types/portfolio'
 
 export async function createItem(
   description: string,
@@ -8,4 +10,9 @@ export async function createItem(
 ): Promise<void> {
   const businessId = await getBusinessId(businessHandle)
   await insertItem(description, file, businessId)
+}
+
+export async function getPortfolio(businessHandle: string): Promise<Portfolio> {
+  const businessId = await getBusinessId(businessHandle)
+  return await getPortfolioDb(businessId)
 }
