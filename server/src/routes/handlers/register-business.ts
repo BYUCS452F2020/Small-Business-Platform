@@ -10,7 +10,7 @@ const schema = zod.object({
 
   email: zod.string()
     .email()
-    .min(1)
+    .min(5)
     .max(32),
 
   handle: zod.string()
@@ -23,6 +23,7 @@ const schema = zod.object({
 
   website: zod.string()
     .url()
+    .max(100)
     .optional(),
 
   description: zod.string()

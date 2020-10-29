@@ -68,6 +68,7 @@ const BusinessRegistration: React.FC = () => {
           inputType="input"
           label="Name"
           htmlAttrs={{
+            maxLength: 40,
             placeholder: 'Awesome Company',
             required: true,
             type: 'text',
@@ -85,6 +86,7 @@ const BusinessRegistration: React.FC = () => {
           inputType="input"
           label="Handle"
           htmlAttrs={{
+            maxLength: 20,
             pattern: '^[-_.a-zA-Z0-9]+$',
             placeholder: 'awesomeco',
             required: true,
@@ -101,6 +103,7 @@ const BusinessRegistration: React.FC = () => {
           inputType="input"
           label="Email"
           htmlAttrs={{
+            maxLength: 32,
             placeholder: 'hello@awesome.co',
             required: true,
             type: 'email',
@@ -113,6 +116,7 @@ const BusinessRegistration: React.FC = () => {
           inputType="input"
           label="Website"
           htmlAttrs={{
+            maxLength: 100,
             placeholder: 'https://awesome.co',
             type: 'url',
             value: website,

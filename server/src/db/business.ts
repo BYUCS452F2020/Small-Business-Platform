@@ -8,11 +8,11 @@ export async function createTable(): Promise<void> {
     `CREATE TABLE IF NOT EXISTS "business" (
             businessID   SERIAL PRIMARY KEY,
             userID       INTEGER NOT NULL, 
-            name         VARCHAR(20) NOT NULL UNIQUE,
+            name         VARCHAR(40) NOT NULL UNIQUE,
             handle       VARCHAR(20) NOT NULL UNIQUE,
-            email        VARCHAR(20) NOT NULL,
+            email        VARCHAR(32) NOT NULL,
             logo         BYTEA,
-            website      VARCHAR(32),
+            website      VARCHAR(100),
             description  VARCHAR(100)
         )`,
   )
