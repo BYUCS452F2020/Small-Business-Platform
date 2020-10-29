@@ -1,4 +1,5 @@
 import pool from './pool'
+import Portfolio from '../types/portfolio'
 
 export async function createTable(): Promise<void> {
   await pool.query(
@@ -34,25 +35,23 @@ export async function insert(
   }
 }
 
-interface Portfolio {
-  file: string,
-  description: string
-}
-
-export async function get(businessId: number): Promise<Array<Portfolio>> {
+export async function get(businessId: number): Promise<Portfolio> {
   let result
   try {
     result = await pool.query(
-      `SELECT file description
-      FROM portfolio
-      where businessId = $1`,
+      `SELECT itemID, file, description
+       FROM portfolio
+       WHERE businessID = $1`,
       [businessId],
     )
-    
   } catch(err) {
-    console.log('Sorry, an unexpected error getting the portfolio')
+    console.error('unexpected error getting portfolio', businessId, err)
     throw new Error('FailedGetPortfolio')
   }
 
-  return result.rows
+  return result.rows.map(r => ({
+    id: r.itemid,
+    file: r.file,
+    description: r.description,
+  }))
 }

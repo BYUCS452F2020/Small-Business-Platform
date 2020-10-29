@@ -5,6 +5,7 @@ import loginUser from './handlers/login-user'
 import registerBusiness from './handlers/register-business'
 import createPortfolioItem from './handlers/create-portfolio-item'
 import getBusiness from './handlers/get-business'
+import getPortfolio from './handlers/get-portfolio'
 import handleError from './handlers/error'
 import { set as setRoutes } from './routes'
 import authMiddleware, { authMiddlewareOptional } from './middlewares/auth'
@@ -22,6 +23,7 @@ jest.mock('./handlers/login-user')
 jest.mock('./handlers/register-business')
 jest.mock('./handlers/get-business')
 jest.mock('./handlers/create-portfolio-item')
+jest.mock('./handlers/get-portfolio')
 
 describe('Routes', () => {
   let app: express.Application
@@ -68,6 +70,11 @@ describe('Routes', () => {
         method: 'post',
         path: '/business/handle/portfolio',
         handler: createPortfolioItem,
+      },
+      {
+        method: 'get',
+        path: '/business/handle/portfolio',
+        handler: getPortfolio,
       },
     ]
 
