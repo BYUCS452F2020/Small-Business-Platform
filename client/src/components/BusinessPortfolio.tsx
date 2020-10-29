@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import defaultLogo from '../assets/demo_icon.jpg'
+import defaultLogo from '../assets/default-logo.png'
 import '../styles/business-portfolio.scss'
 import {getBusiness, getPortfolio} from '../Backend'
 import NotFound from './NotFound'
