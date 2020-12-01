@@ -1,14 +1,21 @@
 import {MongoClient, Db} from 'mongodb'
 
-const uri = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/?ssl=false`
+const uri = process.env.MONGO_URL as string
 let db: Db
 
-export async function connect(): Promise<void> {
+export const errorCodes = {
+  namespaceExists: 48,
+  dupKey: 11000,
+}
+
+export async function connect(): Promise<MongoClient> {
   try {
     const client = await MongoClient.connect(uri, {useUnifiedTopology: true})
     db = client.db('spackle')
+    return client
   } catch (err) {
     console.error('Failed to connect to mongodb', uri, err)
+    throw new Error('FailedConnectMongo')
   }
 }
 

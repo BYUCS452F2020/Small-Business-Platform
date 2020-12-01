@@ -1,11 +1,13 @@
 import express from 'express'
 import {set as setRoutes} from './routes/routes'
 import {connect} from './db/mongo/db'
+import {init as initUserCollection} from './db/mongo/user'
 
 (async () => {
-  // make sure database tables exist
+  // set up database
   try {
     await connect()
+    await initUserCollection()
   } catch (err) {
     console.error('Unexpected error connecting to mongo', err)
     process.exit(1)
