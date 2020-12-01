@@ -1,13 +1,13 @@
-import {createTables} from './db/postgresql/db'
 import express from 'express'
 import {set as setRoutes} from './routes/routes'
+import {connect} from './db/mongo/db'
 
 (async () => {
   // make sure database tables exist
   try {
-    await createTables()
+    await connect()
   } catch (err) {
-    console.error('Unexpected error creating tables', err)
+    console.error('Unexpected error connecting to mongo', err)
     process.exit(1)
   }
 

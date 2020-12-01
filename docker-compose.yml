@@ -16,11 +16,10 @@ services:
       - db
     environment:
       - PORT=$SERVER_PORT
-      - PGHOST=db
-      - PGPORT=$POSTGRES_PORT
-      - PGUSER=$POSTGRES_USER
-      - PGPASSWORD=$POSTGRES_PASSWORD
-      - PGDATABASE=$POSTGRES_DB
+      - MONGO_HOST=db
+      - MONGO_PORT=$MONGO_PORT
+      - MONGO_USER=$MONGO_USER
+      - MONGO_PASSWORD=$MONGO_PASSWORD
     networks:
       - backend
     ports:
@@ -29,18 +28,17 @@ services:
       - ./server:/home/node/app
 
   db:
-    image: postgres:12
+    image: mongo:4
     environment:
-      - POSTGRES_USER=$POSTGRES_USER
-      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-      - POSTGRES_DB=$POSTGRES_DB
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USER
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
     networks:
       - backend
     volumes:
-      - spackle-db:/var/lib/postgresql/data
+      - spackle-mongo:/data/db
 
 networks:
   backend:
 
 volumes:
-  spackle-db:
+  spackle-mongo:
