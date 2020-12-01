@@ -1,9 +1,9 @@
 import request from 'supertest'
 import express from 'express'
-import {get as getBusiness} from '../../db/business'
+import {get as getBusiness} from '../../db/postgresql/business'
 import handler from './get-business'
 
-jest.mock('../../db/business')
+jest.mock('../../db/postgresql/business')
 
 describe('Get Business Handler', () => {
   let app: express.Application

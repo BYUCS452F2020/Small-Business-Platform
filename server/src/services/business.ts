@@ -1,4 +1,4 @@
-import {create as createBusiness} from '../db/business'
+import {create as createBusiness} from '../db/postgresql/business'
 
 export async function register(
   name: string,

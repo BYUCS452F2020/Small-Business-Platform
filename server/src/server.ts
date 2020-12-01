@@ -1,4 +1,4 @@
-import {createTables} from './db/db'
+import {createTables} from './db/postgresql/db'
 import express from 'express'
 import {set as setRoutes} from './routes/routes'
 

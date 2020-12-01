@@ -2,13 +2,13 @@ import {compare, hashPassword} from '../util/hash'
 import {
   create as createUser,
   getAuthInfo,
-} from '../db/user'
-import {create as createAuthToken} from '../db/auth-token'
+} from '../db/postgresql/user'
+import {create as createAuthToken} from '../db/postgresql/auth-token'
 import {login, register} from './user'
 
 jest.mock('../util/hash')
-jest.mock('../db/user')
-jest.mock('../db/auth-token')
+jest.mock('../db/postgresql/user')
+jest.mock('../db/postgresql/auth-token')
 
 describe('User Service', () => {
   afterEach(jest.resetAllMocks)

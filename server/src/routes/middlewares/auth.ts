@@ -1,6 +1,6 @@
 import express from 'express'
 import withErrHandling from './with-err-handling'
-import {getUserId} from '../../db/auth-token'
+import {getUserId} from '../../db/postgresql/auth-token'
 
 type AuthenticatedReq = express.Request & {
   auth: {

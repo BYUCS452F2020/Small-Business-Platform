@@ -1,6 +1,6 @@
 import express from 'express'
 import {isAuthenticated} from '../middlewares/auth'
-import {get as getBusiness} from '../../db/business'
+import {get as getBusiness} from '../../db/postgresql/business'
 
 const handler: express.RequestHandler = async (req, res) => {
   const handle = req.params.handle

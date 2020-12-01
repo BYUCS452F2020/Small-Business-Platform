@@ -1,5 +1,5 @@
 import pool from './pool'
-import Portfolio from '../types/portfolio'
+import Portfolio from '../../types/portfolio'
 
 export async function createTable(): Promise<void> {
   await pool.query(

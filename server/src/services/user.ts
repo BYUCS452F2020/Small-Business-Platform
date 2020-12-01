@@ -2,8 +2,8 @@ import {compare, hashPassword} from '../util/hash'
 import {
   create as createUser,
   getAuthInfo,
-} from '../db/user'
-import {create as createAuthToken} from '../db/auth-token'
+} from '../db/postgresql/user'
+import {create as createAuthToken} from '../db/postgresql/auth-token'
 
 export async function register(
   firstName: string,

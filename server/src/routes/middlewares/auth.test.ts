@@ -1,9 +1,9 @@
 import request from 'supertest'
 import express from 'express'
 import authMiddleware, {assertAuthenticated} from './auth'
-import {getUserId} from '../../db/auth-token'
+import {getUserId} from '../../db/postgresql/auth-token'
 
-jest.mock('../../db/auth-token')
+jest.mock('../../db/postgresql/auth-token')
 
 describe('auth middleware', () => {
   let app: express.Application

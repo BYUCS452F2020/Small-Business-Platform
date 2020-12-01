@@ -1,12 +1,12 @@
 import {
   insert as insertItem,
   get as getPortfolioDb,
-} from '../db/portfolio'
-import {getId as getBusinessId} from '../db/business'
+} from '../db/postgresql/portfolio'
+import {getId as getBusinessId} from '../db/postgresql/business'
 import {createItem, getPortfolio} from './portfolio'
 
-jest.mock('../db/portfolio')
-jest.mock('../db/business')
+jest.mock('../db/postgresql/portfolio')
+jest.mock('../db/postgresql/business')
 
 describe('Portfolio service', () => {
   beforeEach(() => {
