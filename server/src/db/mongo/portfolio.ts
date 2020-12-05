@@ -48,7 +48,11 @@ export async function get(businessId: string): Promise<Array<Portfolio>> {
   try{
     result = await getDB().collection("portfolio").find(
       { businessId: businessId}
-    ).toArray();
+    ).toArray().map(item => ({
+      id: item._id.toHexString(),
+      file: item.file,
+      description: item.description,
+    }));
   } catch(err) {
     console.error('unexpected error getting portfolio', businessId, err)
     throw new Error('FailedGetPortfolio')
