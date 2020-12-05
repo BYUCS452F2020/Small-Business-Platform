@@ -4,4 +4,5 @@ interface PortfolioItem {
   description: string
 }
 
-export default type Portfolio = PortfolioItem[]
+type Portfolio = PortfolioItem[]
+export default Portfolio
