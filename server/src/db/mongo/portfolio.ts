@@ -13,9 +13,9 @@ export async function init(): Promise<void> {
   }
 
   try{
-    await getDB().collection('portfolio').createIndex({itemID: 1}, {unique: true})
+    await getDB().collection('portfolio').createIndex({businessId: 1})
   } catch(err) {
-    console.error('Unexpected error creating itemID index', err)
+    console.error('Unexpected error creating businessId index', err)
     throw new Error('FailedInitPortfolio')
   }
 }
@@ -23,13 +23,12 @@ export async function init(): Promise<void> {
 export async function insert(
   description: string,
   file: string,
-  businessId: number,
+  businessId: string,
 ): Promise<void> {
   try{
     const result = await getDB().collection("portfolio").insertOne({
       description, file, businessId
     })
-
     return result.insertedId.toHexString()
   } catch (err){
     console.error('Unexpected error inserting portfolio', err)
@@ -39,31 +38,20 @@ export async function insert(
 
 interface Portfolio {
   id: string
-  description: string,
-  file: string,
-  businessId: string,
+  file: string
+  description: string
+  businessID: string
 }
 
 export async function get(businessId: string): Promise<Array<Portfolio>> {
-  let result;
-  let portfolioItems: Array<Portfolio> = [];
+  let result : Portfolio[] = [];
   try{
-    
     result = await getDB().collection("portfolio").find(
-      { businessId: businessId, itemID: 1, file: 1, description: 1 }
-    )
+      { businessId: businessId}
+    ).toArray();
   } catch(err) {
     console.error('unexpected error getting portfolio', businessId, err)
     throw new Error('FailedGetPortfolio')
   }
-
-  if(!result) {
-    return portfolioItems; // return an empty array.
-  }
-
-  result.toArray((_err, items) => {
-    portfolioItems = items;
-  });
-
-  return portfolioItems;
+  return result;
 }
