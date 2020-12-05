@@ -1,6 +1,8 @@
 import {getDB, errorCodes} from './db'
 import {v4 as uuid} from 'uuid'
 
+const tokenDuration = 1000 * 60 * 60 * 2 // two hours
+
 export async function init(): Promise<void> {
   try {
     await getDB().createCollection('authTokens')
@@ -19,13 +21,19 @@ export async function init(): Promise<void> {
     console.error('Unexpected error creating username index', err)
     throw new Error('FailedInitAuthTokens')
   }
+
+  // TODO: auto-delete old tokens at some point
 }
 
 export async function create(userId: string): Promise<string> {
   const token = uuid()
 
   try {
-    await getDB().collection('authTokens').insertOne({token, userId})
+    await getDB().collection('authTokens').insertOne({
+      token,
+      userId,
+      expireTime: new Date(Date.now() + tokenDuration),
+    })
     return token
   } catch (err) {
     console.error('Unexpected error creating auth token', userId, err)
@@ -36,7 +44,10 @@ export async function create(userId: string): Promise<string> {
 export async function getUserId(token: string): Promise<string> {
   let result
   try {
-    result = await getDB().collection('authTokens').findOne({token})
+    result = await getDB().collection('authTokens').findOne({
+      token,
+      expireTime: {$gte: new Date()},
+    })
   } catch (err) {
     console.error('Unexpected error getting user id', token, err)
     throw new Error('FailedGetUserId')
