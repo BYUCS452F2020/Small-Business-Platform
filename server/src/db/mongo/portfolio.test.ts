@@ -27,20 +27,20 @@ describe('Portfolio DB', () => {
 
   describe('get portfolio items', () => {
     it('gets the portfolio items (id, file, and description)', async () => {
-      await insert('This is the coolest portfolio item description ever', 'string_representation_of_the_image', 'ID_OF_THE_BUSINESS')
-      await insert('This is the coolest portfolio item description ever times 2', 'string_representation_of_the_image01', 'ID_OF_THE_BUSINESS')
+      const id1 = await insert('This is the coolest portfolio item description ever', 'string_representation_of_the_image', 'ID_OF_THE_BUSINESS')
+      const id2 = await insert('This is the coolest portfolio item description ever times 2', 'string_representation_of_the_image01', 'ID_OF_THE_BUSINESS')
       const result = await get('ID_OF_THE_BUSINESS')
       expect(result[0]).toMatchObject(
         {
+          id: id1,
           file: 'string_representation_of_the_image',
           description: 'This is the coolest portfolio item description ever',
-          businessId: 'ID_OF_THE_BUSINESS'
         })
       expect(result[1]).toMatchObject(
         {
+          id: id2,
           file: 'string_representation_of_the_image01',
           description: 'This is the coolest portfolio item description ever times 2',
-          businessId: 'ID_OF_THE_BUSINESS'
         })
     })
 

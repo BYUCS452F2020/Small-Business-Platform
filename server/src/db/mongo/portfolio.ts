@@ -1,4 +1,5 @@
 import {getDB, errorCodes} from './db'
+import Portfolio from '../../types/portfolio'
 
 export async function init(): Promise<void> {
   try {
@@ -36,19 +37,13 @@ export async function insert(
   }
 }
 
-interface Portfolio {
-  id: string
-  file: string
-  description: string
-  businessID: string
-}
 
-export async function get(businessId: string): Promise<Array<Portfolio>> {
-  let result : Portfolio[] = [];
+export async function get(businessId: string): Promise<Portfolio> {
+  let result : Portfolio = [];
   try{
-    result = await getDB().collection("portfolio").find(
+    result = (await getDB().collection("portfolio").find(
       { businessId: businessId}
-    ).toArray().map(item => ({
+    ).toArray()).map(item => ({
       id: item._id.toHexString(),
       file: item.file,
       description: item.description,

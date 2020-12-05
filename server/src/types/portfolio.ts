@@ -1,5 +1,5 @@
 interface PortfolioItem {
-  id: number
+  id: string
   file: string
   description: string
 }
