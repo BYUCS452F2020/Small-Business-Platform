@@ -1,13 +1,13 @@
 import request from 'supertest'
 import express from 'express'
-import {get as getBusiness} from '../../db/postgresql/business'
+import {get as getBusiness} from '../../db/mongo/business'
 import handler from './get-business'
 
-jest.mock('../../db/postgresql/business')
+jest.mock('../../db/mongo/business')
 
 describe('Get Business Handler', () => {
   let app: express.Application
-  let authUserId: number|null = null
+  let authUserId: string|null = null
 
   beforeEach(() => {
     (getBusiness as jest.Mock).mockResolvedValue({
@@ -17,7 +17,7 @@ describe('Get Business Handler', () => {
       website: 'http://my.biz',
       logo: 'arsta',
       description: 'My cool business',
-      userId: 123,
+      userId: 'abc-123',
     })
 
     app = express()
@@ -52,7 +52,7 @@ describe('Get Business Handler', () => {
   })
 
   it('sets editable based on authenticated user', async () => {
-    authUserId = 456
+    authUserId = 'def-456'
     await request(app)
       .get('/business/mybiz')
       .expect(200, {
@@ -65,7 +65,7 @@ describe('Get Business Handler', () => {
         editable: false,
       })
 
-    authUserId = 123
+    authUserId = 'abc-123'
     await request(app)
       .get('/business/mybiz')
       .expect(200, {

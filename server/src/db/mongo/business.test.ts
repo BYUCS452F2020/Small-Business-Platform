@@ -45,7 +45,7 @@ describe('Business DB', () => {
     it('Gets a business and all its fields from the database', async () => {
       await create('Nate', 'nate@gmail.com', 'nateteahanfilm', 'nate123')
       const result = await get('nateteahanfilm')
-      expect(result).toEqual({name: 'Nate', email: 'nate@gmail.com', handle: 'nateteahanfilm', userID: 'nate123', website: undefined, description: undefined, logo: undefined})
+      expect(result).toEqual({name: 'Nate', email: 'nate@gmail.com', handle: 'nateteahanfilm', userId: 'nate123', website: undefined, description: undefined, logo: undefined})
     })
 
     it('Gets a business id of an already created business', async () => {

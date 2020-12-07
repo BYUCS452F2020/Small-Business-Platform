@@ -28,7 +28,6 @@ export async function create(
   website?: string,
   description?: string,
   logo?: string,
-
 ): Promise<string> {
   try {
     const result = await getDB().collection('business').insertOne({
@@ -55,7 +54,7 @@ interface Business {
   name: string,
   email: string,
   handle: string,
-  userID: string,
+  userId: string,
   website?: string,
   description?: string,
   logo?: string
@@ -78,7 +77,7 @@ export async function get(handle: string) : Promise<Business> {
     name: business.name,
     email: business.email,
     handle: business.handle,
-    userID: business.userID,
+    userId: business.userID,
     website: business.website || undefined,
     description: business.description || undefined,
     logo: business.logo || undefined,

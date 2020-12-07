@@ -2,13 +2,13 @@ import {compare, hashPassword} from '../util/hash'
 import {
   create as createUser,
   getAuthInfo,
-} from '../db/postgresql/user'
-import {create as createAuthToken} from '../db/postgresql/auth-token'
+} from '../db/mongo/user'
+import {create as createAuthToken} from '../db/mongo/auth-token'
 import {login, register} from './user'
 
 jest.mock('../util/hash')
-jest.mock('../db/postgresql/user')
-jest.mock('../db/postgresql/auth-token')
+jest.mock('../db/mongo/user')
+jest.mock('../db/mongo/auth-token')
 
 describe('User Service', () => {
   afterEach(jest.resetAllMocks)
@@ -16,7 +16,7 @@ describe('User Service', () => {
   describe('register', () => {
     beforeEach(() => {
       (hashPassword as jest.Mock).mockResolvedValue('super-awesome-hash')
-      ;(createUser as jest.Mock).mockResolvedValue(123)
+      ;(createUser as jest.Mock).mockResolvedValue('abc-123')
       ;(createAuthToken as jest.Mock).mockResolvedValue('auth-token-yeah')
     })
 
@@ -25,7 +25,7 @@ describe('User Service', () => {
       expect(token).toBe('auth-token-yeah')
       expect(hashPassword).toBeCalledWith('password123')
       expect(createUser).toBeCalledWith('Jason', 'Cox', 'jcox', 'super-awesome-hash', 'jason@mail.com')
-      expect(createAuthToken).toBeCalledWith(123)
+      expect(createAuthToken).toBeCalledWith('abc-123')
     })
 
     it('returns null if auth token creation fails', async () => {
@@ -47,7 +47,7 @@ describe('User Service', () => {
   describe('login', () => {
     beforeEach(() => {
       (compare as jest.Mock).mockResolvedValue(true)
-      ;(getAuthInfo as jest.Mock).mockResolvedValue({id: 123, password: 'hashed'})
+      ;(getAuthInfo as jest.Mock).mockResolvedValue({id: 'abc-123', password: 'hashed'})
       ;(createAuthToken as jest.Mock).mockResolvedValue('auth-token-yeah')
     })
 
@@ -56,7 +56,7 @@ describe('User Service', () => {
       expect(token).toBe('auth-token-yeah')
       expect(getAuthInfo).toBeCalledWith('jcc')
       expect(compare).toBeCalledWith('abc', 'hashed')
-      expect(createAuthToken).toBeCalledWith(123)
+      expect(createAuthToken).toBeCalledWith('abc-123')
     })
 
     it('throws IncorrectPassword if password incorrect', async () => {

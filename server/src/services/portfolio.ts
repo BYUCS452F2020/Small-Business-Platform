@@ -1,6 +1,6 @@
-import {insert as insertItem} from '../db/postgresql/portfolio'
-import {get as getPortfolioDb} from '../db/postgresql/portfolio'
-import {getId as getBusinessId} from '../db/postgresql/business'
+import {insert as insertItem} from '../db/mongo/portfolio'
+import {get as getPortfolioDb} from '../db/mongo/portfolio'
+import {getId as getBusinessId} from '../db/mongo/business'
 import Portfolio from '../types/portfolio'
 
 export async function createItem(

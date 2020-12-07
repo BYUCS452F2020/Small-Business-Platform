@@ -1,10 +1,10 @@
 import express from 'express'
 import withErrHandling from './with-err-handling'
-import {getUserId} from '../../db/postgresql/auth-token'
+import {getUserId} from '../../db/mongo/auth-token'
 
 type AuthenticatedReq = express.Request & {
   auth: {
-    userId: number
+    userId: string
   }
 }
 
@@ -18,7 +18,7 @@ export function assertAuthenticated(
 
 export function isAuthenticated(req: express.Request): req is AuthenticatedReq {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return (req as any).auth && (typeof (req as any).auth.userId === 'number')
+  return (req as any).auth && (typeof (req as any).auth.userId === 'string')
 }
 
 function makeAuth(optional?: boolean): express.RequestHandler {

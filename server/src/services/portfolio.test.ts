@@ -1,16 +1,16 @@
 import {
   insert as insertItem,
   get as getPortfolioDb,
-} from '../db/postgresql/portfolio'
-import {getId as getBusinessId} from '../db/postgresql/business'
+} from '../db/mongo/portfolio'
+import {getId as getBusinessId} from '../db/mongo/business'
 import {createItem, getPortfolio} from './portfolio'
 
-jest.mock('../db/postgresql/portfolio')
-jest.mock('../db/postgresql/business')
+jest.mock('../db/mongo/portfolio')
+jest.mock('../db/mongo/business')
 
 describe('Portfolio service', () => {
   beforeEach(() => {
-    (getBusinessId as jest.Mock).mockResolvedValue(123)
+    (getBusinessId as jest.Mock).mockResolvedValue('bus1')
   })
 
   afterEach(jest.resetAllMocks)
@@ -20,7 +20,7 @@ describe('Portfolio service', () => {
       await createItem('desc', 'file', 'handle')
 
       expect(getBusinessId).toBeCalledWith('handle')
-      expect(insertItem).toBeCalledWith('desc', 'file', 123)
+      expect(insertItem).toBeCalledWith('desc', 'file', 'bus1')
     })
 
     it('passes on errors from getting business id', async () => {
@@ -57,7 +57,7 @@ describe('Portfolio service', () => {
       ])
 
       expect(getBusinessId).toBeCalledWith('mybiz')
-      expect(getPortfolioDb).toBeCalledWith(123)
+      expect(getPortfolioDb).toBeCalledWith('bus1')
     })
 
     it('passes on errors from getting business id', async () => {

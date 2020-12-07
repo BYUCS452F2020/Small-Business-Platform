@@ -1,5 +1,5 @@
 export default interface PortfolioItem {
-  id: number
+  id: string
   description: string
   file: string
 }
@@ -8,7 +8,7 @@ export default interface PortfolioItem {
 export function arePortfolioItems(x: any): x is PortfolioItem[] {
   return x && x instanceof Array && (x.length === 0 || x.reduce((p, c) => {
     return p && c &&
-      typeof c.id === 'number' &&
+      typeof c.id === 'string' &&
       typeof c.description === 'string' &&
       typeof c.file === 'string'
   }, true))

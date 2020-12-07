@@ -1,10 +1,10 @@
-import {create as createBusiness} from '../db/postgresql/business'
+import {create as createBusiness} from '../db/mongo/business'
 
 export async function register(
   name: string,
   email: string,
   handle: string,
-  userID: number,
+  userID: string,
   website?: string,
   desciption?: string,
   logo?: string,

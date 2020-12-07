@@ -33,6 +33,8 @@ services:
       - backend
     volumes:
       - spackle-mongo:/data/db
+    ports:
+      - 3333:$MONGO_PORT
 
 networks:
   backend:

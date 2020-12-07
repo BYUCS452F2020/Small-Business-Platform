@@ -1,9 +1,9 @@
 import request from 'supertest'
 import express from 'express'
 import authMiddleware, {assertAuthenticated} from './auth'
-import {getUserId} from '../../db/postgresql/auth-token'
+import {getUserId} from '../../db/mongo/auth-token'
 
-jest.mock('../../db/postgresql/auth-token')
+jest.mock('../../db/mongo/auth-token')
 
 describe('auth middleware', () => {
   let app: express.Application
@@ -51,7 +51,7 @@ describe('auth middleware', () => {
   })
 
   it('calls next with authenticated req if token found', async () => {
-    (getUserId as jest.Mock).mockResolvedValue(123)
+    (getUserId as jest.Mock).mockResolvedValue('abc-123')
 
     await request(app)
       .post('/')
@@ -59,7 +59,7 @@ describe('auth middleware', () => {
       .expect(200)
 
     expect(handler).toBeCalledWith(
-      expect.objectContaining({auth: {userId: 123}}),
+      expect.objectContaining({auth: {userId: 'abc-123'}}),
       expect.anything(),
       expect.anything(),
     )
